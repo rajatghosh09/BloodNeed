@@ -1,66 +1,14 @@
-// "use client";
-
-// import { useAuthStore } from "@/zustand/userAuth";
-// import { useHospitalRequests } from "@/hooks/hospitalRequest";
-
-// import BloodRequestForm from "@/components/hospital/BloodRequestForm";
-// import RequestList from "@/components/hospital/RequestList";
-// import StatsCards from "@/components/hospital/StatsCards";
-// import EmergencyAlert from "@/components/hospital/EmergencyAlert";
-
-// const HospitalDashboard = () => {
-
-//   const user = useAuthStore((state) => state.user);
-
-//   const { data } = useHospitalRequests(user?.auth_id );
-
-//   const total = data?.length || 0;
-//   const pending = data?.filter((r: any) => r.status === "pending").length || 0;
-//   const approved = data?.filter((r: any) => r.status === "approved").length || 0;
-//   const emergency = data?.filter((r: any) => r.priority_level === "high").length || 0;
-
-//   if (!user) return null;
-
-//   return (
-//     <div className="min-h-screen p-6 bg-muted/40 space-y-6">
-
-//       <StatsCards
-//         total={total}
-//         pending={pending}
-//         approved={approved}
-//       />
-
-//       <EmergencyAlert count={emergency} />
-
-//       <div className="grid md:grid-cols-2 gap-6">
-
-//         <div className="bg-white p-6 rounded-xl shadow">
-//           <BloodRequestForm auth_id={user.auth_id} />
-//         </div>
-
-//         <div className="bg-white p-6 rounded-xl shadow">
-//           <RequestList auth_id={user.auth_id} />
-//         </div>
-
-//       </div>
-
-//     </div>
-//   );
-// };
-
-// export default HospitalDashboard;
-
-
 "use client";
 
 import { useAuthStore } from "@/zustand/userAuth";
 import { useHospitalRequests } from "@/hooks/hospitalRequest";
-
 import BloodRequestForm from "@/components/hospital/BloodRequestForm";
 import RequestList from "@/components/hospital/RequestList";
 import StatsCards from "@/components/hospital/StatsCards";
 import EmergencyAlert from "@/components/hospital/EmergencyAlert";
 import { Building2 } from "lucide-react";
+
+
 
 const HospitalDashboard = () => {
   const user = useAuthStore((state) => state.user);

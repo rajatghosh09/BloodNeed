@@ -1,107 +1,3 @@
-// "use client";
-
-// import {
-//   useHospitalRequestsAdmin,
-//   useUpdateRequestStatus,
-// } from "@/hooks/adminBloodRequest";
-
-// const BloodRequest = () => {
-//   const { data, isLoading } = useHospitalRequestsAdmin();
-//   const updateStatus = useUpdateRequestStatus();
-  
-//   // Optional: Keep for debugging, remove in production
-//   console.log("data from blood request", data);
-
-//   if (isLoading) return <p className="p-6 text-gray-500">Loading requests...</p>;
-
-//   return (
-//     <div className="p-6">
-//       <h1 className="text-2xl font-bold mb-6 text-red-600">
-//         Hospital Blood Requests
-//       </h1>
-
-//       <div className="overflow-x-auto bg-white rounded-xl shadow">
-//         <table className="w-full text-sm">
-//           <thead className="bg-red-50">
-//             <tr>
-//               <th className="p-3">Hospital</th>
-//               <th className="p-3">Email</th>
-//               <th className="p-3">Address</th>
-//               <th className="p-3">Blood</th>
-//               <th className="p-3">Units</th>
-//               <th className="p-3">Priority</th>
-//               <th className="p-3">Status</th>
-//               <th className="p-3">Action</th>
-//             </tr>
-//           </thead>
-
-//           <tbody>
-//             {(!data || data.length === 0) && (
-//               <tr>
-//                 <td colSpan={8} className="text-center p-6 text-gray-500">
-//                   No blood requests found
-//                 </td>
-//               </tr>
-//             )}
-
-//             {data?.map((req: any) => (
-//               <tr key={req.id} className="border-t text-center">
-//                 {/* Notice these are now flat properties instead of req.register.X */}
-//                 <td className="p-3 font-medium">
-//                   {req.hospital_name ?? "_"}
-//                 </td>
-
-//                 <td className="p-3">{req.email}</td>
-
-//                 <td className="p-3">{req.address}</td>
-
-//                 <td className="p-3 text-red-600 font-semibold">
-//                   {req.blood_group}
-//                 </td>
-
-//                 <td className="p-3">{req.units_requested}</td>
-
-//                 <td className="p-3 capitalize">{req.priority_level}</td>
-
-//                 <td className="p-3">
-//                   <span className={`px-3 py-1 rounded-full text-xs ${
-//                       req.status === 'approved'
-//                         ? 'bg-green-100 text-green-700'
-//                         : 'bg-yellow-100 text-yellow-700'
-//                     }`}
-//                   >
-//                     {req.status || "pending"}
-//                   </span>
-//                 </td>
-
-//                 <td className="p-3">
-//                   {req.status !== "approved" && (
-//                     <button
-//                       onClick={() =>
-//                         updateStatus.mutate({
-//                           id: req.id,
-//                           status: "approved",
-//                         })
-//                       }
-//                       className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition-colors"
-//                     >
-//                       Approve
-//                     </button>
-//                   )}
-//                 </td>
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default BloodRequest;
-
-
-
 "use client";
 
 import {
@@ -110,11 +6,9 @@ import {
 } from "@/hooks/adminBloodRequest";
 import Lottie from "lottie-react";
 import loadingAnimation from "@/services/json/loader/bloodsathi.json";
-import { Mail, PhoneCall } from "lucide-react";
+import { Mail, PhoneCall, MapPin, Droplet } from "lucide-react";
 
-
-
-// // Helper function to truncate text to a specific number of words
+// Helper function to truncate text to a specific number of words
 const truncateWords = (text: string, maxWords: number = 10) => {
   if (!text) return "_";
   const words = text.split(" ");
@@ -141,40 +35,26 @@ const BloodRequest = () => {
   const { data, isLoading } = useHospitalRequestsAdmin();
   const updateStatus = useUpdateRequestStatus();
 
-//   if (isLoading) {
-//     return (
-//       <div className="flex items-center justify-center min-h-[400px]">
-//         <div className="flex flex-col items-center gap-3">
-//           <div className="w-8 h-8 border-4 border-red-200 border-t-red-600 rounded-full animate-spin"></div>
-//           <p className="text-gray-500 font-medium">Loading requests...</p>
-//         </div>
-//       </div>
-//     );
-    //   }
-    
-if (isLoading) {
+  if (isLoading) {
     return (
-      // 'fixed inset-0 z-50' forces it to the center of the screen, ignoring sidebars/navbars
-      // 'bg-white/80' gives it a nice subtle transparent background overlay
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-50/80 backdrop-blur-sm">
         <div className="flex flex-col items-center gap-2">
-          {/* Wrapper div to control the size of the animation */}
-          <div className="w-32 h-32"> 
-            <Lottie 
-              animationData={loadingAnimation} 
-              loop={true} 
-            />
+          <div className="w-32 h-32">
+            <Lottie animationData={loadingAnimation} loop={true} />
           </div>
-          <p className="text-gray-600 font-medium tracking-wide">Loading requests...</p>
+          <p className="text-gray-600 font-medium tracking-wide">
+            Loading requests...
+          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="p-6 max-w-[1600px] mx-auto">
+    <div className="p-4 md:p-6 max-w-[1600px] mx-auto">
+      
       {/* Header Section */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 md:mb-8">
         <div>
           <h1 className="text-2xl font-bold text-red-600">
             Hospital Blood Requests
@@ -183,14 +63,78 @@ if (isLoading) {
             Manage and approve blood requirements from registered hospitals.
           </p>
         </div>
-        <div className="bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-100">
-          <span className="text-sm font-semibold text-gray-600">Total Requests: </span>
+        <div className="bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-100 w-full sm:w-auto flex justify-between sm:justify-start items-center gap-2">
+          <span className="text-sm font-semibold text-gray-600">
+            Total Requests:{" "}
+          </span>
           <span className="text-red-600 font-bold">{data?.length || 0}</span>
         </div>
       </div>
 
-      {/* Table Section */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      {(!data || data.length === 0) && (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 text-center py-12">
+          <div className="flex flex-col items-center justify-center text-gray-400">
+            <svg className="w-12 h-12 mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+            </svg>
+            <p className="text-base font-medium text-gray-500">No blood requests found</p>
+            <p className="text-sm mt-1">New requests will appear here.</p>
+          </div>
+        </div>
+      )}
+
+      {/* ================= MOBILE VIEW (CARDS) ================= */}
+      <div className="md:hidden flex flex-col gap-4">
+        {data?.map((req: any) => (
+          <div key={req.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex flex-col gap-4">
+            {/* Top Row: Hospital & Blood Group */}
+            <div className="flex justify-between items-start gap-2">
+              <div>
+                <h3 className="font-bold text-gray-900 leading-tight">{req.hospital_name ?? "Unknown Hospital"}</h3>
+                <div className="flex items-center gap-2 mt-2 text-xs">
+                  <span className={`px-2 py-0.5 rounded-full capitalize ${getPriorityStyles(req.priority_level)}`}>
+                    {req.priority_level || "Normal"} Priority
+                  </span>
+                  <span className={`px-2 py-0.5 rounded-full flex items-center gap-1 ${req.status === "approved" ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"}`}>
+                    {req.status || "pending"}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-col items-center shrink-0">
+                <span className="flex items-center justify-center w-12 h-12 rounded-full bg-red-50 text-red-600 font-bold text-lg border border-red-100">
+                  {req.blood_group}
+                </span>
+                <span className="text-xs font-semibold text-gray-500 mt-1">{req.units_requested} Units</span>
+              </div>
+            </div>
+
+            {/* Middle Row: Contact & Address */}
+            <div className="bg-gray-50 p-3 rounded-lg flex flex-col gap-2 text-sm text-gray-600 border border-gray-100">
+              <span className="flex items-center gap-2"><Mail className="w-4 h-4 text-gray-400 shrink-0" /> {req.email || "N/A"}</span>
+              <span className="flex items-center gap-2"><PhoneCall className="w-4 h-4 text-gray-400 shrink-0" /> {req.phone || "N/A"}</span>
+              <span className="flex items-start gap-2"><MapPin className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" /> <span className="line-clamp-2">{req.address || "N/A"}</span></span>
+            </div>
+
+            {/* Bottom Row: Action Button */}
+            {req.status !== "approved" ? (
+              <button
+                onClick={() => updateStatus.mutate({ id: req.id, status: "approved" })}
+                disabled={updateStatus.isPending}
+                className="w-full bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-3 rounded-lg shadow-sm transition-all focus:ring-2 focus:ring-red-500 disabled:opacity-50 flex justify-center items-center"
+              >
+                {updateStatus.isPending ? "Approving..." : "Approve Request"}
+              </button>
+            ) : (
+              <div className="w-full bg-gray-100 text-gray-500 text-sm font-semibold py-3 rounded-lg text-center border border-gray-200">
+                ✓ Request Approved
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* ================= DESKTOP VIEW (TABLE) ================= */}
+      <div className="hidden md:block bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead className="bg-gray-50 border-b border-gray-200">
@@ -207,20 +151,6 @@ if (isLoading) {
             </thead>
 
             <tbody className="divide-y divide-gray-100">
-              {(!data || data.length === 0) && (
-                <tr>
-                  <td colSpan={8} className="text-center py-12">
-                    <div className="flex flex-col items-center justify-center text-gray-400">
-                      <svg className="w-12 h-12 mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-                      </svg>
-                      <p className="text-base font-medium text-gray-500">No blood requests found</p>
-                      <p className="text-sm">New requests will appear here.</p>
-                    </div>
-                  </td>
-                </tr>
-              )}
-
               {data?.map((req: any) => (
                 <tr key={req.id} className="hover:bg-gray-50 transition-colors duration-150">
                   
@@ -231,7 +161,7 @@ if (isLoading) {
                     </div>
                   </td>
 
-                 {/* Contact (Email & Phone combined for cleaner UI) */}
+                  {/* Contact */}
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex flex-col gap-1.5 text-sm">
                       <span className="text-gray-600 flex items-center gap-2">
@@ -243,12 +173,9 @@ if (isLoading) {
                     </div>
                   </td>
 
-                  {/* Address (Truncated to 10 words, full address on hover) */}
+                  {/* Address */}
                   <td className="px-6 py-4">
-                    <div 
-                      className="text-sm text-gray-600 max-w-[200px] cursor-help"
-                      title={req.address} // Native browser tooltip for full address
-                    >
+                    <div className="text-sm text-gray-600 max-w-[200px] cursor-help" title={req.address}>
                       {truncateWords(req.address, 5)}
                     </div>
                   </td>
@@ -274,8 +201,7 @@ if (isLoading) {
 
                   {/* Status */}
                   <td className="px-6 py-4 whitespace-nowrap text-center">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-medium flex items-center justify-center gap-1 w-fit mx-auto ${
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium flex items-center justify-center gap-1 w-fit mx-auto ${
                         req.status === "approved"
                           ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
                           : "bg-amber-100 text-amber-700 border border-amber-200"
@@ -292,12 +218,7 @@ if (isLoading) {
                   <td className="px-6 py-4 whitespace-nowrap text-right">
                     {req.status !== "approved" ? (
                       <button
-                        onClick={() =>
-                          updateStatus.mutate({
-                            id: req.id,
-                            status: "approved",
-                          })
-                        }
+                        onClick={() => updateStatus.mutate({ id: req.id, status: "approved" })}
                         disabled={updateStatus.isPending}
                         className="bg-red-600 hover:bg-red-700 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm transition-all focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                       >

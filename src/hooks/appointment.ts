@@ -120,3 +120,86 @@ export const useLatestAppointment = (user_id: string) => {
     },
   });
 };
+
+
+// admin panel start where approve and reject button implement
+export const useAllAppointments = () => {
+  return useQuery({
+    queryKey: ["admin-appointments"],
+    queryFn: async () => {
+      // 1. Fetch all appointments
+      const { data: appointments, error: aptError } = await supabase
+        .from("donation_appointments")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (aptError) throw aptError;
+      if (!appointments || appointments.length === 0) return [];
+
+      // 2. Extract the user_ids (which are UUIDs)
+      const userIds = [...new Set(appointments.map(apt => apt.user_id).filter(Boolean))];
+
+      // 3. Fetch matching users from 'register' table
+      // We use 'auth_id' because that matches the uuid from appointments
+      const { data: users, error: usersError } = await supabase
+        .from("register")
+        .select("auth_id, full_name, email, phone")
+        .in("auth_id", userIds); // <-- Matching against auth_id!
+
+      if (usersError) {
+        console.error("Users Fetch Error:", usersError);
+        throw usersError;
+      }
+
+      // 4. Combine the data
+      const enrichedAppointments = appointments.map(apt => {
+        // Find the user where register.auth_id matches appointment.user_id
+        const matchingUser = users?.find(u => u.auth_id === apt.user_id); 
+        
+        return {
+          ...apt,
+          // We format it into a 'register' object so your table UI doesn't break
+          register: {
+            name: matchingUser?.full_name || "Unknown User",
+            email: matchingUser?.email || "No email",
+            phone: matchingUser?.phone || "No phone"
+          }
+        };
+      });
+
+      return enrichedAppointments;
+    },
+  });
+};
+
+// Update Appointment Status (Approve/Reject)
+export const UpdateAppointmentStatus = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: "approved" | "rejected" }) => {
+      const { data, error } = await supabase
+        .from("donation_appointments")
+        .update({ status })
+        .eq("id", id)
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (response) => {
+      // Refresh admin list
+      queryClient.invalidateQueries({ queryKey: ["admin-appointments"] });
+      // Refresh the specific user's list so they see the update immediately
+      queryClient.invalidateQueries({ queryKey: ["appointments", response.user_id] });
+      queryClient.invalidateQueries({ queryKey: ["latest-appointment", response.user_id] });
+      
+      toast.success(`Appointment ${response.status} successfully`);
+    },
+    onError: (error) => {
+      console.error("Error updating status:", error);
+      toast.error(error.message || "Failed to update status");
+    },
+  });
+};

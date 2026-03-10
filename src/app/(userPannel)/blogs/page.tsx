@@ -8,7 +8,6 @@ import Link from "next/link";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
 
-
 // --- MOCK DATA ---
 const categories = ["All", "Donation Tips", "Success Stories", "Health & Wellness", "Events"];
 
@@ -21,7 +20,6 @@ const featuredPost = {
   authorAvatar: "https://randomuser.me/api/portraits/women/44.jpg", 
   date: "Mar 5, 2026",
   readTime: "5 min read",
-  // 🌟 Real image URL (Directly related to blood donation & healthcare)
   imageUrl: "https://images.unsplash.com/photo-1516549655169-df83a0774514?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80", 
 };
 
@@ -35,7 +33,6 @@ const recentPosts = [
     authorAvatar: "https://randomuser.me/api/portraits/men/32.jpg", 
     date: "Mar 2, 2026",
     readTime: "4 min read",
-    // Image: Patient donating blood in a medical chair
     imageUrl: "https://images.unsplash.com/photo-1536856136534-bb679c52a9aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
   },
   {
@@ -47,7 +44,6 @@ const recentPosts = [
     authorAvatar: "https://randomuser.me/api/portraits/men/78.jpg", 
     date: "Feb 28, 2026",
     readTime: "6 min read",
-    // Image: Medical professionals / healthcare setting
     imageUrl: "https://images.unsplash.com/photo-1536856136534-bb679c52a9aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
   },
   {
@@ -59,7 +55,6 @@ const recentPosts = [
     authorAvatar: "https://randomuser.me/api/portraits/women/65.jpg",
     date: "Feb 20, 2026",
     readTime: "3 min read",
-    // Image: Healthy, iron-rich green foods
     imageUrl: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
   },
 ];
@@ -67,6 +62,20 @@ const recentPosts = [
 const Blogs = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+
+  // 1. ADD FILTERING LOGIC HERE
+  const filteredPosts = recentPosts.filter((post) => {
+    // Check if it matches the category (or if "All" is selected)
+    const matchesCategory = activeCategory === "All" || post.category === activeCategory;
+    
+    // Check if the search query is in the title or excerpt (case-insensitive)
+    const searchLower = searchQuery.toLowerCase();
+    const matchesSearch = 
+      post.title.toLowerCase().includes(searchLower) || 
+      post.excerpt.toLowerCase().includes(searchLower);
+
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="min-h-screen bg-gray-50/50 pb-16">
@@ -88,7 +97,7 @@ const Blogs = () => {
 
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 mt-12 space-y-16">
 
-        {/* SECTION 1: Featured Post */}
+        {/* SECTION 1: Featured Post (Optional: You might want to hide this when searching/filtering, but I left it visible) */}
         <section>
           <Link href={`/blogs/${featuredPost.id}`}>
             <div className="group cursor-pointer grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-white rounded-2xl p-4 md:p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all">
@@ -162,62 +171,77 @@ const Blogs = () => {
             <h3 className="text-2xl font-bold text-gray-900">Latest Articles</h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {recentPosts.map((post) => (
-              <Link href={`/blogs/${post.id}`} key={post.id} className="h-full">
-                <div className="group cursor-pointer bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all flex flex-col h-full">
+          {/* 2. UPDATE MAPPING AND ADD EMPTY STATE */}
+          {filteredPosts.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredPosts.map((post) => (
+                <Link href={`/blogs/${post.id}`} key={post.id} className="h-full">
+                  <div className="group cursor-pointer bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all flex flex-col h-full">
 
-                  <Image
-                    src={post.imageUrl}
-                    alt={post.title}
-                    width={800}
-                    height={600}
-                    className="w-full h-56 object-cover"
-                  />
+                    <Image
+                      src={post.imageUrl}
+                      alt={post.title}
+                      width={800}
+                      height={600}
+                      className="w-full h-56 object-cover"
+                    />
 
-                  <div className="p-6 flex flex-col flex-1">
-                    <div className="flex justify-between items-center mb-4">
-                      <span className="text-xs font-bold text-red-600 uppercase tracking-wider">
-                        {post.category}
-                      </span>
-                      <span className="text-xs text-gray-500 flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5" /> {post.readTime}
-                      </span>
-                    </div>
-
-                    <h4 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-red-600 transition-colors line-clamp-2 flex-1">
-                      {post.title}
-                    </h4>
-
-                    {/* Excerpt removed for recent posts to keep cards clean and consistent, matching reference image */}
-
-                    <div className="flex items-center justify-between pt-5 border-t border-gray-100 mt-5">
-                      <div className="flex items-center gap-3 text-sm text-gray-500">
-                        <Avatar className="w-9 h-9 border-2 border-white shadow-sm">
-                          <AvatarImage src={post.authorAvatar} alt={post.author} />
-                          <AvatarFallback><User /></AvatarFallback>
-                        </Avatar>
-                        <span>{post.author}</span>
+                    <div className="p-6 flex flex-col flex-1">
+                      <div className="flex justify-between items-center mb-4">
+                        <span className="text-xs font-bold text-red-600 uppercase tracking-wider">
+                          {post.category}
+                        </span>
+                        <span className="text-xs text-gray-500 flex items-center gap-1">
+                          <Clock className="w-3.5 h-3.5" /> {post.readTime}
+                        </span>
                       </div>
-                      <span className="text-red-600 group-hover:translate-x-1 transition-transform">
-                        <ArrowRight className="w-5 h-5" />
-                      </span>
+
+                      <h4 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-red-600 transition-colors line-clamp-2 flex-1">
+                        {post.title}
+                      </h4>
+
+                      <div className="flex items-center justify-between pt-5 border-t border-gray-100 mt-5">
+                        <div className="flex items-center gap-3 text-sm text-gray-500">
+                          <Avatar className="w-9 h-9 border-2 border-white shadow-sm">
+                            <AvatarImage src={post.authorAvatar} alt={post.author} />
+                            <AvatarFallback><User /></AvatarFallback>
+                          </Avatar>
+                          <span>{post.author}</span>
+                        </div>
+                        <span className="text-red-600 group-hover:translate-x-1 transition-transform">
+                          <ArrowRight className="w-5 h-5" />
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-20 bg-white rounded-2xl border border-gray-100">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">No articles found</h3>
+              <p className="text-gray-500">Try adjusting your search or category filter.</p>
+              <Button 
+                variant="outline" 
+                className="mt-6"
+                onClick={() => {
+                  setSearchQuery("");
+                  setActiveCategory("All");
+                }}
+              >
+                Clear Filters
+              </Button>
+            </div>
+          )}
 
-          <div className="mt-12 text-center">
-            <Button variant="outline" className="px-8 py-6 text-base font-semibold border-gray-300">
-              Load More Articles
-            </Button>
-          </div>
+          {filteredPosts.length > 0 && (
+            <div className="mt-12 text-center">
+              <Button variant="outline" className="px-8 py-6 text-base font-semibold border-gray-300">
+                Load More Articles
+              </Button>
+            </div>
+          )}
         </section>
-
-        {/* Newsletter Section */}
-        {/* ... remains unchanged ... */}
 
       </div>
     </div>

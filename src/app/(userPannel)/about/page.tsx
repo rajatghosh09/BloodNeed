@@ -3,24 +3,7 @@
 import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
 import type { PropsWithChildren } from "react";
-import {
-  Heart,
-  HeartPulse,
-  ShieldCheck,
-  Stethoscope,
-  Users,
-  Building2,
-  CalendarCheck,
-  Globe2,
-  HandHeart,
-  UserPlus,
-  Sparkles,
-  Droplet,
-  Linkedin,
-  Twitter,
-  Mail,
-  Github,
-} from "lucide-react";
+import {Heart,HeartPulse,ShieldCheck,Stethoscope,Users,Building2,CalendarCheck,Globe2,HandHeart,UserPlus,Sparkles,Droplet,Linkedin,Twitter,Mail,Github,} from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import FAQSection from "@/components/AboutFaq";
