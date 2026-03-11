@@ -4,6 +4,7 @@ import { supabase } from "@/lib/supabaseclient";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+
 interface InventoryPayload {
   blood_group: string;
   units_available: number;

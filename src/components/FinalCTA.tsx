@@ -51,7 +51,7 @@ export default function FinalCTA() {
         <p className="mt-6 text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
           Finding the right blood match shouldn’t be stressful.
           <span className="font-semibold text-gray-900 dark:text-white">
-            {" "}BloodSathi{" "}
+            {" "}BloodNeed{" "}
           </span>
           connects hospitals and donors instantly — when it matters most.
         </p>

@@ -1,59 +1,131 @@
+// "use client";
+
+// import { Swiper, SwiperSlide } from "swiper/react";
+// import { Pagination, Autoplay } from "swiper/modules";
+// import "swiper/css";
+// import "swiper/css/pagination";
+// import hero1 from "../../public/banner/hero1.jpg"
+// import hero2 from "../../public/banner/hero2.jpg"
+// import hero3 from "../../assets/hero3.jpg"
+// import Image from "next/image";
+
+
+
+
+// const HomeSlider = () => {
+//     return (
+//         <section className="home-slider relative">
+//             <Swiper
+//                 modules={[Pagination, Autoplay]}
+//                 slidesPerView={1}
+//                 loop
+//                 autoplay={{ delay: 4000 }}
+//                 pagination={{ clickable: true }}
+//             >
+//                 <SwiperSlide>
+//                     <div className="relative w-full h-[80vh]">
+//                         <Image
+//                             src={hero1}
+//                             alt="Hero Banner"
+//                             fill
+//                             className="object-cover"
+//                             priority
+//                         />
+//                     </div>
+//                 </SwiperSlide>
+
+//                 <SwiperSlide>
+//                     <div className="relative w-full h-[80vh]">
+//                         <Image
+//                             src={hero2}
+//                             alt="Hero Banner"
+//                             fill
+//                             className="object-cover"
+//                             priority
+//                         />
+//                     </div>
+//                 </SwiperSlide>
+
+//                 <SwiperSlide>
+//                     <div className="relative w-full h-[80vh]">
+//                         <Image
+//                             src={hero3}
+//                             alt="Hero Banner"
+//                             fill
+//                             className="object-cover"
+//                             priority
+//                         />
+//                     </div>
+//                 </SwiperSlide>
+//             </Swiper>
+
+//             {/* Custom Pagination */}
+//             <div className="custom-pagination"></div>
+//         </section>
+//     );
+// };
+
+// export default HomeSlider;
+
+
+
+
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import hero1 from "../../public/banner/hero1.jpg"
-import hero2 from "../../public/banner/hero2.jpg"
-import hero3 from "../../assets/hero3.jpg"
+import hero1 from "../../public/banner/hero1.jpg";
+import hero2 from "../../public/banner/hero2.jpg";
+import hero3 from "../../assets/hero3.jpg";
 import Image from "next/image";
-
-
-
 
 const HomeSlider = () => {
     return (
-        <section className="home-slider relative">
+        <section className="home-slider relative w-full">
             <Swiper
                 modules={[Pagination, Autoplay]}
                 slidesPerView={1}
                 loop
-                autoplay={{ delay: 4000 }}
+                autoplay={{ delay: 4000, disableOnInteraction: false }}
                 pagination={{ clickable: true }}
+                className="w-full"
             >
                 <SwiperSlide>
-                    <div className="relative w-full h-[80vh]">
+                    {/* Responsive height: 50vh on mobile, 65vh on tablets, 80vh on desktop */}
+                    <div className="relative w-full h-[50vh] md:h-[65vh] xl:h-[80vh]">
                         <Image
                             src={hero1}
-                            alt="Hero Banner"
+                            alt="Hero Banner 1"
                             fill
-                            className="object-cover"
-                            priority
+                            className="object-cover object-center"
+                            priority // Only the FIRST image should have priority for fast loading
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
                         />
                     </div>
                 </SwiperSlide>
 
                 <SwiperSlide>
-                    <div className="relative w-full h-[80vh]">
+                    <div className="relative w-full h-[50vh] md:h-[65vh] xl:h-[80vh]">
                         <Image
                             src={hero2}
-                            alt="Hero Banner"
+                            alt="Hero Banner 2"
                             fill
-                            className="object-cover"
-                            priority
+                            className="object-cover object-center"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
                         />
                     </div>
                 </SwiperSlide>
 
                 <SwiperSlide>
-                    <div className="relative w-full h-[80vh]">
+                    <div className="relative w-full h-[50vh] md:h-[65vh] xl:h-[80vh]">
                         <Image
                             src={hero3}
-                            alt="Hero Banner"
+                            alt="Hero Banner 3"
                             fill
-                            className="object-cover"
-                            priority
+                            className="object-cover object-center"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
                         />
                     </div>
                 </SwiperSlide>

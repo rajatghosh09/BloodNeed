@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Github, Youtube, Linkedin } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { TextHoverEffect } from "@/components/text-hover-effect";
 
 
 export default function FooterSection({ className }: { className?: string }) {
@@ -28,50 +29,50 @@ export default function FooterSection({ className }: { className?: string }) {
           {/* Logo & Description */}
           <div className="space-y-4">
             {/*LOGO SECTION */}
-        <div className="flex items-center">
-          <Link href="/" className="group flex items-center gap-3">
-            
-            {/* The Animated Image Container */}
-            <div className="relative flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-0.5">
-              
-              {/* Heartbeat Animation wrapping YOUR custom image */}
-              <motion.div
-                animate={{ scale: [1, 1.08, 1] }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                {/* 👇 CHANGE YOUR LOGO IMAGE HERE 👇 */}
-                <Image
-                  src="/donor-sync-icon-rounder.svg" 
-                  alt="Brand Logo"
-                  width={38}
-                  height={38}
-                  className="rounded-lg shadow-sm"
-                  priority
-                />
-              </motion.div>
-            </div>
+            <div className="flex items-center">
+              <Link href="/" className="group flex items-center gap-3">
 
-            {/* The Interactive Text */}
-            <div className="flex flex-col relative">
-              <span className="bg-gradient-to-r from-red-600 to-rose-500 bg-clip-text text-xl sm:text-2xl font-extrabold tracking-tight text-transparent transition-all duration-300 group-hover:from-red-700 group-hover:to-rose-600">
-                {/* 👇 CHANGE YOUR BRAND TEXT HERE 👇 */}
-                BloodNeed
-              </span>
-              
-              {/* Animated Underline */}
-              <motion.div
-                className="absolute -bottom-1 left-0 h-0.5 w-full origin-left rounded-full bg-red-600"
-                initial={{ scaleX: 0 }}
-                whileHover={{ scaleX: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-              />
+                {/* The Animated Image Container */}
+                <div className="relative flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-0.5">
+
+                  {/* Heartbeat Animation wrapping YOUR custom image */}
+                  <motion.div
+                    animate={{ scale: [1, 1.08, 1] }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    {/* 👇 CHANGE YOUR LOGO IMAGE HERE 👇 */}
+                    <Image
+                      src="/donor-sync-icon-rounder.svg"
+                      alt="Brand Logo"
+                      width={38}
+                      height={38}
+                      className="rounded-lg shadow-sm"
+                      priority
+                    />
+                  </motion.div>
+                </div>
+
+                {/* The Interactive Text */}
+                <div className="flex flex-col relative">
+                  <span className="bg-gradient-to-r from-red-600 to-rose-500 bg-clip-text text-xl sm:text-2xl font-extrabold tracking-tight text-transparent transition-all duration-300 group-hover:from-red-700 group-hover:to-rose-600">
+                    {/* 👇 CHANGE YOUR BRAND TEXT HERE 👇 */}
+                    BloodNeed
+                  </span>
+
+                  {/* Animated Underline */}
+                  <motion.div
+                    className="absolute -bottom-1 left-0 h-0.5 w-full origin-left rounded-full bg-red-600"
+                    initial={{ scaleX: 0 }}
+                    whileHover={{ scaleX: 1 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                  />
+                </div>
+              </Link>
             </div>
-          </Link>
-        </div>
 
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
               BloodNeed is a smart blood donation platform connecting donors,
@@ -140,6 +141,11 @@ export default function FooterSection({ className }: { className?: string }) {
         {/* Bottom */}
         <div className="mt-16 border-t border-white/10 pt-6 text-center text-sm text-muted-foreground">
           © {year} BloodNeed. All rights reserved.
+        </div>
+
+        {/* last hover effect on name */}
+        <div className="w-full mt-10 xl:h-[16rem] lg:h-[12rem] md:h-[8rem] h-[6rem] flex items-center justify-center">
+          <TextHoverEffect text="BLOODNEED" />
         </div>
       </div>
     </footer>
