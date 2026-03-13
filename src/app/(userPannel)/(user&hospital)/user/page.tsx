@@ -2,7 +2,6 @@
 
 import AppointmentForm from "@/components/userdashboard/AppointmentForm";
 import { useAuthStore } from "@/zustand/userAuth";
-// IMPORT YOUR HOOK HERE (Adjust the path if needed)
 import { useAppointments } from "@/hooks/appointment"; 
 
 import {
