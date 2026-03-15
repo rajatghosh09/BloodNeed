@@ -11,7 +11,7 @@ import {
 /* ---------------- FAQ Data ---------------- */
 const FAQ_DATA = {
   description: "Find answers to common questions about blood donation and how our platform helps connect lives.",
-  email: "support@bloodsathi.com",
+  email: "support@bloodneed.com",
   items: [
     {
       question: "Who can donate blood?",

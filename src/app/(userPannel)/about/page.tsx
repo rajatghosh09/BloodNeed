@@ -14,7 +14,7 @@ const chips = [
   { id: "impact", label: "Impact" },
   { id: "how-it-works", label: "How it works" },
   { id: "values", label: "Values" },
-  { id: "components", label: "Components" }, // <-- Added to chips
+  { id: "components", label: "Components" },
   { id: "faq", label: "FAQ" },
 ] as const;
 
