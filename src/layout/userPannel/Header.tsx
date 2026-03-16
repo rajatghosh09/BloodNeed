@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X } from "lucide-react"; 
+import { Menu, X } from "lucide-react";
 import Image from "next/image"; // Brought Image back!
 import { useAuthStore } from "@/zustand/userAuth";
 import { useRouter } from "next/navigation";
@@ -32,10 +32,10 @@ const Header = () => {
         {/*LOGO SECTION */}
         <div className="flex items-center">
           <Link href="/" className="group flex items-center gap-3">
-            
+
             {/* The Animated Image Container */}
             <div className="relative flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-0.5">
-              
+
               {/* Heartbeat Animation wrapping YOUR custom image */}
               <motion.div
                 animate={{ scale: [1, 1.08, 1] }}
@@ -47,7 +47,7 @@ const Header = () => {
               >
                 {/* 👇 CHANGE YOUR LOGO IMAGE HERE 👇 */}
                 <Image
-                  src="/donor-sync-icon-rounder.svg" 
+                  src="/donor-sync-icon-rounder.svg"
                   alt="Brand Logo"
                   width={38}
                   height={38}
@@ -63,7 +63,7 @@ const Header = () => {
                 {/* 👇 CHANGE YOUR BRAND TEXT HERE 👇 */}
                 BloodNeed
               </span>
-              
+
               {/* Animated Underline */}
               <motion.div
                 className="absolute -bottom-1 left-0 h-0.5 w-full origin-left rounded-full bg-red-600"
@@ -156,9 +156,6 @@ const Header = () => {
           </Link>
           <Link href="/about" className="block hover:text-red-600 transition-colors" onClick={() => setOpen(false)}>
             About
-          </Link>
-          <Link href="/blood" className="block hover:text-red-600 transition-colors" onClick={() => setOpen(false)}>
-            Blood
           </Link>
           <Link href="/donors" className="block hover:text-red-600 transition-colors" onClick={() => setOpen(false)}>
             Donors
