@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🩸 BloodNeed – Blood Management Platform
 
-## Getting Started
+BloodNeed is a modern web application that connects **blood donors, hospitals, and patients** in real-time.
+It helps users quickly find and request blood during emergencies with a clean and responsive interface.
 
-First, run the development server:
+---
+
+## 🚀 Live Demo
+
+👉 **Live App:** [Open App](https://blood-need-rajat.vercel.app)
+📂 **GitHub Repo:** [View Code](https://github.com/rajatghosh09/BloodNeed)
+
+---
+
+## 📌 Features
+
+* 🩸 Donor registration and management
+* 🏥 Hospital dashboard for blood requests
+* 📍 Location-based donor discovery (React-Leaflet map)
+* 🔄 Real-time data handling
+* 📱 Fully responsive UI
+* 🔐 Authentication system
+* ⚡ Clean and modern user experience
+
+---
+
+## 🛠 Tech Stack
+
+* **Frontend:** Next.js, TypeScript
+* **UI:** TailwindCSS, Shadcn UI
+* **State/Data:** TanStack Query
+* **Backend:** Supabase
+* **Maps:** React-Leaflet
+
+---
+
+## 🖼️ Screenshots
+
+<p align="center">
+  <img src="./images/preview1.png" width="48%" />
+  <img src="./images/preview2.png" width="48%" />
+</p>
+
+---
+
+## ⚙️ Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/rajatghosh09/BloodNeed.git
+
+# Navigate to project
+cd BloodNeed
+
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🧠 What I Learned
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+* Building full-stack apps with **Next.js + Supabase**
+* Managing server state with **TanStack Query**
+* Integrating maps using **React-Leaflet**
+* Designing scalable and responsive UI
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 📌 Future Improvements
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* 🔔 Real-time notifications
+* 📊 Advanced analytics dashboard
+* 📍 Improved location tracking
+* 🧑‍⚕️ Role-based access system
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 👨‍💻 Author
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Rajat Ghosh**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* GitHub: https://github.com/rajatghosh09
+* LinkedIn: https://linkedin.com/in/rajat-ghosh-733005350
+
+---
+
+⭐ If you found this project helpful, consider giving it a **star**!
