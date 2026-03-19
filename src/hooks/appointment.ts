@@ -85,7 +85,6 @@ export const CreateAppointment = () => {
 export const useAppointments = (user_id: string) => {
   return useQuery({
     queryKey: ["appointments", user_id],
-
     queryFn: async () => {
       const { data, error } = await supabase
         .from("donation_appointments")

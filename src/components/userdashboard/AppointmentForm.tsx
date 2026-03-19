@@ -18,7 +18,7 @@ interface Props {
 
 const AppointmentForm = ({ userId }: Props) => {
   const [date, setDate] = useState<Date | undefined>();
-  const [bookedDate, setBookedDate] = useState<Date | undefined>(); // FIX: Store the date just for the dialog
+  const [bookedDate, setBookedDate] = useState<Date | undefined>();
   const [openDialog, setOpenDialog] = useState(false);
 
   const mutation = CreateAppointment();
@@ -43,7 +43,7 @@ const AppointmentForm = ({ userId }: Props) => {
       },
       {
         onSuccess: () => {
-          setBookedDate(date);  // Save the date for the popup BEFORE clearing it
+          setBookedDate(date);  // Save the date
           setDate(undefined);   // Reset the calendar input
           setOpenDialog(true);  // Open the success dialog
         },

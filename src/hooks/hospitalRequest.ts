@@ -1,15 +1,8 @@
 import { supabase } from "@/lib/supabaseclient";
+import { BloodRequest } from "@/typescript/interface/bloodrequest.interface";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-export interface BloodRequest {
-  id?: number;
-  blood_group: string;
-  units_requested: number;
-  priority_level: string;
-  status?: string;
-  auth_id: string;
-}
 
 // Submit Request
 export const useCreateRequest = () => {

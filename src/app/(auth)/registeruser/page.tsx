@@ -16,6 +16,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { LoaderCircle } from "lucide-react";
+import DecryptedText from "@/components/react-bits/DecryptedText";
 
 
 
@@ -82,8 +83,17 @@ const RegisterUser = () => {
         <Card className="w-full max-w-md mx-auto shadow-2xl rounded-3xl border-none bg-white h-[90vh] flex flex-col">
 
           <CardHeader className="text-center space-y-3 pb-4">
-            <CardTitle className="text-3xl font-bold text-red-600">
-              Become a Blood Donor ❤️
+            <CardTitle className="flex justify-center gap-2 text-3xl font-bold text-red-600">
+              Become a Blood 
+              <CardTitle className="flex justify-center text-3xl font-bold text-red-600">
+              <DecryptedText 
+                text="Donor"
+                animateOn="view"
+                speed={80}
+                maxIterations={5}
+                className="text-3xl font-bold text-red-600"
+              />
+            </CardTitle>
             </CardTitle>
             <CardDescription className="text-gray-500">
               Save lives by registering today

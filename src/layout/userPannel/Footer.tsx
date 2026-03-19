@@ -9,7 +9,6 @@ import { TextHoverEffect } from "@/components/text-hover-effect";
 
 
 export default function FooterSection({ className }: { className?: string }) {
-  const year = new Date().getFullYear();
 
   return (
     <footer
@@ -18,7 +17,6 @@ export default function FooterSection({ className }: { className?: string }) {
         className
       )}
     >
-      {/* Background Glow */}
       <div className="absolute inset-0 bg-gradient-to-br from-rose-50 via-white to-rose-100 dark:from-black dark:via-neutral-900 dark:to-black -z-10" />
       <div className="absolute top-10 left-20 w-72 h-72 bg-rose-300/20 blur-3xl rounded-full -z-10" />
       <div className="absolute bottom-10 right-20 w-80 h-80 bg-pink-300/20 blur-3xl rounded-full -z-10" />
@@ -28,14 +26,11 @@ export default function FooterSection({ className }: { className?: string }) {
 
           {/* Logo & Description */}
           <div className="space-y-4">
-            {/*LOGO SECTION */}
             <div className="flex items-center">
               <Link href="/" className="group flex items-center gap-3">
 
-                {/* The Animated Image Container */}
                 <div className="relative flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-0.5">
 
-                  {/* Heartbeat Animation wrapping YOUR custom image */}
                   <motion.div
                     animate={{ scale: [1, 1.08, 1] }}
                     transition={{
@@ -44,7 +39,6 @@ export default function FooterSection({ className }: { className?: string }) {
                       ease: "easeInOut",
                     }}
                   >
-                    {/* 👇 CHANGE YOUR LOGO IMAGE HERE 👇 */}
                     <Image
                       src="/donor-sync-icon-rounder.svg"
                       alt="Brand Logo"
@@ -59,7 +53,6 @@ export default function FooterSection({ className }: { className?: string }) {
                 {/* The Interactive Text */}
                 <div className="flex flex-col relative">
                   <span className="bg-gradient-to-r from-red-600 to-rose-500 bg-clip-text text-xl sm:text-2xl font-extrabold tracking-tight text-transparent transition-all duration-300 group-hover:from-red-700 group-hover:to-rose-600">
-                    {/* 👇 CHANGE YOUR BRAND TEXT HERE 👇 */}
                     BloodNeed
                   </span>
 
@@ -138,9 +131,8 @@ export default function FooterSection({ className }: { className?: string }) {
 
         </div>
 
-        {/* Bottom */}
         <div className="mt-16 border-t border-white/10 pt-6 text-center text-sm text-muted-foreground">
-          © {year} BloodNeed. All rights reserved.
+          © 2026 BloodNeed. All rights reserved.
         </div>
 
         {/* last hover effect on name */}
