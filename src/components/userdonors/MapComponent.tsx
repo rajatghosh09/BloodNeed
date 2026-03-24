@@ -5,7 +5,6 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-// Fix for default Leaflet marker icons in Next.js
 const customIcon = L.icon({
   iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
   iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
@@ -14,7 +13,6 @@ const customIcon = L.icon({
   iconAnchor: [12, 41],
 });
 
-// Helper component to smoothly animate the map to a new location
 const MapController = ({ center }: { center: [number, number] | null }) => {
   const map = useMap();
   useEffect(() => {
@@ -26,7 +24,6 @@ const MapController = ({ center }: { center: [number, number] | null }) => {
 };
 
 export default function MapComponent({ donors, activeLocation }: any) {
-  // Default center (West Bengal)
   const defaultCenter: [number, number] = [22.9868, 87.855];
 
   return (
@@ -45,7 +42,6 @@ export default function MapComponent({ donors, activeLocation }: any) {
         <MapController center={activeLocation} />
 
         {donors?.map((donor: any, idx: number) => {
-          // Only plot if the geocoding successfully found coordinates
           if (!donor.lat || !donor.lng) return null;
           
           return (

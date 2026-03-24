@@ -273,7 +273,7 @@ import { Search, MapPin, Phone, Droplet, User, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-// Dynamically import the map so it doesn't break Next.js
+
 const MapComponent = dynamic(() => import("@/components/userdonors/MapComponent"), {
   ssr: false,
   loading: () => (
@@ -426,7 +426,7 @@ const Donors = () => {
   //   setDonors(processedDonors);
   //   setIsLoading(false);
   // };
-const fetchAndGeocodeDonors = async () => {
+  const fetchAndGeocodeDonors = async () => {
     setIsLoading(true);
     setGeocodingProgress("Fetching donors from database...");
 
@@ -443,20 +443,17 @@ const fetchAndGeocodeDonors = async () => {
     }
 
     let processedDonors: any[] = [];
-    const userEmail = "admin@bloodsathi.com"; // Keep this to prevent bans!
+    const userEmail = "admin@bloodsathi.com";
 
     for (let i = 0; i < data.length; i++) {
       const donor = data[i];
 
-      // 1. FAST PATH: Already geocoded in database
       if (donor.lat && donor.lng) {
         processedDonors.push(donor);
-        // Update the UI immediately so you can see them appearing!
-        setDonors([...processedDonors]); 
+        setDonors([...processedDonors]);
         continue;
       }
 
-      // 2. SLOW PATH: Needs geocoding
       setGeocodingProgress(`Locating ${donor.full_name || 'donor'} on map (${i + 1}/${data.length})...`);
 
       if (!donor.address || donor.address.length < 5) {
@@ -471,10 +468,9 @@ const fetchAndGeocodeDonors = async () => {
         const addressText = donor.address;
 
         let res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(addressText)}&email=${userEmail}`);
-        
-        // If the API blocks you, this throws an error that we will catch below
+
         if (!res.ok) throw new Error(`OpenStreetMap API Error: ${res.status} ${res.statusText}`);
-        
+
         let geoData = await res.json();
 
         if (geoData && geoData.length > 0) {
@@ -482,7 +478,7 @@ const fetchAndGeocodeDonors = async () => {
           lng = parseFloat(geoData[0].lon);
         }
 
-        // --- ATTEMPT 2: PIN Code Trick ---
+        // PIN Code Trick ---
         if (!lat) {
           const pinMatch = addressText.match(/\b\d{6}\b/);
           if (pinMatch) {
@@ -496,7 +492,7 @@ const fetchAndGeocodeDonors = async () => {
           }
         }
 
-        // --- ATTEMPT 3: City Fallbacks ---
+        //City Fallbacks ---
         if (!lat) {
           const lower = addressText.toLowerCase();
           let fallback = "";
@@ -504,7 +500,7 @@ const fetchAndGeocodeDonors = async () => {
           else if (lower.includes("habra")) fallback = "Habra, West Bengal, India";
           else if (lower.includes("barasat")) fallback = "Barasat, West Bengal, India";
           // Add your current location as a fallback if it makes sense for your data
-          else if (lower.includes("arambag")) fallback = "Arambag, West Bengal, India"; 
+          else if (lower.includes("arambag")) fallback = "Arambag, West Bengal, India";
 
           if (fallback) {
             res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fallback)}&email=${userEmail}`);
@@ -516,26 +512,23 @@ const fetchAndGeocodeDonors = async () => {
           }
         }
 
-        // 3. SAVE COORDS TO SUPABASE
         if (lat && lng) {
           const { error: updateError } = await supabase
             .from("register")
             .update({ lat: lat, lng: lng })
             .eq("id", donor.id);
-            
+
           if (updateError) {
-             console.error(`Failed to save coordinates for ${donor.full_name} to Supabase. Check your RLS policies!`, updateError);
+            console.error(`Failed to save coordinates for ${donor.full_name} to Supabase. Check your RLS policies!`, updateError);
           }
         }
 
         processedDonors.push({ ...donor, lat, lng });
-        setDonors([...processedDonors]); // Update UI progressively!
+        setDonors([...processedDonors]);
 
-        // Wait 2 seconds between calls
         await new Promise(resolve => setTimeout(resolve, 2000));
 
       } catch (err) {
-        // THIS WILL TELL US WHAT WENT WRONG!
         console.error(`Geocoding Failed for ${donor.full_name}:`, err);
         processedDonors.push({ ...donor, lat: null, lng: null });
         setDonors([...processedDonors]);
@@ -601,7 +594,7 @@ const fetchAndGeocodeDonors = async () => {
               <div className="flex flex-col items-center justify-center h-full text-gray-500 space-y-3">
                 <Loader2 className="w-8 h-8 animate-spin text-red-400" />
                 <p className="text-sm font-medium text-center px-4">{geocodingProgress}</p>
-                <p className="text-xs text-gray-400 text-center">(Converting text addresses to map pins...)</p>
+                <p className="text-xs text-gray-400 text-center">Converting text addresses to map pins...</p>
               </div>
             ) : filteredDonors.length === 0 ? (
               <p className="text-center text-gray-500 py-10">No donors found.</p>
