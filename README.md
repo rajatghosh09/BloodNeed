@@ -39,6 +39,7 @@ It helps users quickly find and request blood during emergencies with a clean an
 <p align="center">
   <img src="./images/preview1.png" width="48%" />
   <img src="./images/preview2.png" width="48%" />
+  <img src="./images/preview3.png" width="48%" />
 </p>
 
 ---
