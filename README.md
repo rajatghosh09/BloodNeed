@@ -37,9 +37,9 @@ It helps users quickly find and request blood during emergencies with a clean an
 ## 🖼️ Screenshots
 
 <p align="center">
-  <img src="./images/preview1.png" width="48%" />
-  <img src="./images/preview2.png" width="48%" />
-  <img src="./images/preview3.png" width="48%" />
+  <img src="https://raw.githubusercontent.com/rajatghosh09/BloodNeed/main/public/images/preview1.png" width="30%" height="50%" />
+  <img src="https://raw.githubusercontent.com/rajatghosh09/BloodNeed/main/public/images/preview2.png" width="30%" />
+  <img src="https://raw.githubusercontent.com/rajatghosh09/BloodNeed/main/public/images/preview3.png" width="30%" />
 </p>
 
 ---
