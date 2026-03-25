@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useAuthStore } from "@/zustand/userAuth";
 import { Heart, ShieldCheck, Zap } from "lucide-react";
+import GlareHover from "./react-bits/GlareHover";
 
 export default function FinalCTA() {
   const router = useRouter();
@@ -44,7 +45,7 @@ export default function FinalCTA() {
           <span className="block text-gray-800 dark:text-white pb-4">
             Ready to make a
           </span>
-            <span className="text-red-600">difference?</span>
+          <span className="text-red-600">difference?</span>
         </h2>
 
         {/* Description */}
@@ -58,13 +59,26 @@ export default function FinalCTA() {
 
         {/* CTA Button */}
         <div className="mt-10 flex justify-center">
-          <button
-            onClick={() => router.push(redirectPath)}
-            className="group relative inline-flex items-center justify-center h-[60px] w-[240px] rounded-xl bg-gradient-to-r from-red-600 to-red-500 text-white text-lg font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-red-300/50"
+          <GlareHover
+            width="240px"
+            height="60px"
+            borderRadius="12px"
+            background="linear-gradient(to right, #dc2626, #ef4444)"
+            borderColor="transparent"
+            glareColor="#ffffff"
+            glareOpacity={0.4}
+            glareSize={150}
+            className="hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-red-300/50"
           >
-            <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-red-500 to-pink-500 opacity-0 group-hover:opacity-20 transition duration-300 blur-xl" />
-            <span className="relative z-10">{buttonText}</span>
-          </button>
+            <button
+              onClick={() => router.push(redirectPath)}
+              className="relative z-10 h-full w-full text-white text-lg font-semibold flex items-center justify-center"
+            >
+              {/* Glow effect behind the text */}
+              <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-red-500 to-pink-500 opacity-0 group-hover:opacity-20 transition duration-300 blur-xl" />
+              <span className="relative z-10">{buttonText}</span>
+            </button>
+          </GlareHover>
         </div>
 
         {/* Feature Icons */}
@@ -72,7 +86,7 @@ export default function FinalCTA() {
 
           <div className="flex flex-col items-center group">
             <div className="w-14 h-14 flex items-center justify-center rounded-xl bg-red-100 dark:bg-red-900/30 group-hover:scale-110 transition">
-              <Heart color="red"/>
+              <Heart color="red" />
             </div>
             <span className="mt-3 font-semibold text-gray-700 dark:text-gray-300">
               Save Lives
@@ -81,7 +95,7 @@ export default function FinalCTA() {
 
           <div className="flex flex-col items-center group">
             <div className="w-14 h-14 flex items-center justify-center rounded-xl bg-red-100 dark:bg-red-900/30 group-hover:scale-110 transition">
-              <Zap color="red"/>
+              <Zap color="red" />
             </div>
             <span className="mt-3 font-semibold text-gray-700 dark:text-gray-300">
               Fast Matching

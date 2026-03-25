@@ -17,6 +17,7 @@ import Link from "next/link";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { LoaderCircle } from "lucide-react";
 import DecryptedText from "@/components/react-bits/DecryptedText";
+import GlareHover from "@/components/react-bits/GlareHover";
 
 
 
@@ -60,7 +61,6 @@ const RegisterUser = () => {
 
   return (
     <div className="h-screen overflow-hidden flex items-center justify-center bg-gray-100 dark:bg-black px-4">
-      {/* Back Button */}
       <Link
         href="/"
         className="absolute top-6 left-6 text-red-600 hover:scale-110 transition"
@@ -84,16 +84,16 @@ const RegisterUser = () => {
 
           <CardHeader className="text-center space-y-3 pb-4">
             <CardTitle className="flex justify-center gap-2 text-3xl font-bold text-red-600">
-              Become a Blood 
+              Become a Blood
               <CardTitle className="flex justify-center text-3xl font-bold text-red-600">
-              <DecryptedText 
-                text="Donor"
-                animateOn="view"
-                speed={80}
-                maxIterations={5}
-                className="text-3xl font-bold text-red-600"
-              />
-            </CardTitle>
+                <DecryptedText
+                  text="Donor"
+                  animateOn="view"
+                  speed={50}
+                  maxIterations={3}
+                  className="text-3xl font-bold text-red-600"
+                />
+              </CardTitle>
             </CardTitle>
             <CardDescription className="text-gray-500">
               Save lives by registering today
@@ -180,15 +180,40 @@ const RegisterUser = () => {
                 </p>
               </div>
 
-              <Button
-                type="submit"
-                className="w-full bg-red-600 hover:bg-red-700 text-white rounded-xl py-2 mt-2 transition"
-                disabled={mutation.isPending}
-              >
-                {mutation.isPending
-                  ? <LoaderCircle className="animate-spin h-5 w-5 mx-auto" />
-                  : "Register as Donor"}
-              </Button>
+              {/* <Button
+                  type="submit"
+                  className="w-full bg-red-600 hover:bg-red-700 text-white rounded-xl py-2 mt-2 transition"
+                  disabled={mutation.isPending}
+                >
+                  {mutation.isPending
+                    ? <LoaderCircle className="animate-spin h-5 w-5 mx-auto" />
+                    : "Register as Donor"}
+                </Button> */}
+
+              <div className="mt-2">
+                <GlareHover
+                  width="100%"
+                  height="42px"
+                  borderRadius="12px"
+                  background={mutation.isPending ? "#991b1b" : "linear-gradient(to right, #dc2626, #ef4444)"}
+                  glareOpacity={0.5}
+                  transitionDuration={900}
+                  className={`w-full shadow-md ${mutation.isPending ? "cursor-not-allowed opacity-80" : "hover:scale-[1.01] active:scale-[0.99] transition-all"}`}
+                >
+                  <Button
+                    type="submit"
+                    disabled={mutation.isPending}
+                    // Remove default bg and hover to let GlareHover shine through
+                    className="w-full h-full bg-transparent hover:bg-transparent text-white shadow-none border-none"
+                  >
+                    {mutation.isPending ? (
+                      <LoaderCircle className="animate-spin h-5 w-5 mx-auto" />
+                    ) : (
+                      "Register as Donor"
+                    )}
+                  </Button>
+                </GlareHover>
+              </div>
 
             </form>
           </CardContent>

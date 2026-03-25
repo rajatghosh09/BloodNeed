@@ -16,6 +16,8 @@ import LogIn from "../../../../assets/LogIn.png";
 import Link from "next/link";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { LoaderCircle } from "lucide-react";
+import DecryptedText from "@/components/react-bits/DecryptedText";
+import GlareHover from "@/components/react-bits/GlareHover";
 
 
 
@@ -84,9 +86,18 @@ const RegisterHospital = () => {
         {/* Form Section */}
         <Card className="w-full max-w-md mx-auto shadow-xl border-red-200">
 
-          <CardHeader className="text-center pb-4">
-            <CardTitle className="text-2xl font-bold text-red-600">
-              Become a Hospital
+          <CardHeader className="text-center space-y-3 pb-4">
+            <CardTitle className="flex justify-center gap-2 text-3xl font-bold text-red-600">
+              Become a
+              <CardTitle className="flex justify-center text-3xl font-bold text-red-600">
+                <DecryptedText
+                  text="Hospital"
+                  animateOn="view"
+                  speed={50}
+                  maxIterations={4}
+                  className="text-3xl font-bold text-red-600"
+                />
+              </CardTitle>
             </CardTitle>
 
             <Tabs defaultValue="hospital" className="mt-4">
@@ -159,7 +170,7 @@ const RegisterHospital = () => {
                 </p>
               </div>
 
-              <Button
+              {/* <Button
                 type="submit"
                 className="w-full bg-red-600 hover:bg-red-700 text-white mt-2"
                 disabled={mutation.isPending}
@@ -167,8 +178,34 @@ const RegisterHospital = () => {
                 {mutation.isPending
                   ? <LoaderCircle className="animate-spin h-5 w-5 mx-auto" />
                   : "Register as Hospital"}
-              </Button>
+              </Button> */}
 
+
+              <div className="pt-2">
+                <GlareHover
+                  width="100%"
+                  height="44px" // Matches the standard py-2 button height
+                  borderRadius="12px" // Matches rounded-xl
+                  // Switch to a solid dark red when pending to show it's "busy"
+                  background={mutation.isPending ? "#991b1b" : "linear-gradient(to right, #dc2626, #ef4444)"}
+                  glareOpacity={0.5}
+                  transitionDuration={900}
+                  className={`w-full shadow-lg ${mutation.isPending ? "cursor-not-allowed opacity-80" : "hover:scale-[1.02] active:scale-[0.98] transition-all"}`}
+                >
+                  <Button
+                    type="submit"
+                    disabled={mutation.isPending}
+                    // CRITICAL: bg-transparent and shadow-none allow the GlareHover styles to show through
+                    className="w-full h-full bg-transparent hover:bg-transparent text-white font-bold border-none shadow-none"
+                  >
+                    {mutation.isPending ? (
+                      <LoaderCircle className="animate-spin h-5 w-5 mx-auto" />
+                    ) : (
+                      "Register as Hospital"
+                    )}
+                  </Button>
+                </GlareHover>
+              </div>
             </form>
           </CardContent>
         </Card>
