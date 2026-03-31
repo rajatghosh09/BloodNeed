@@ -90,8 +90,8 @@ const Signin = () => {
 
               <GlareHover
                 width="100%"
-                height="42px" 
-                borderRadius="12px" 
+                height="42px"
+                borderRadius="12px"
                 background={mutation.isPending ? "#991b1b" : "linear-gradient(to right, #dc2626, #ef4444)"}
                 glareOpacity={0.5}
                 transitionDuration={900}

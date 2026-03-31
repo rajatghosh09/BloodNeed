@@ -203,7 +203,6 @@ const RegisterUser = () => {
                   <Button
                     type="submit"
                     disabled={mutation.isPending}
-                    // Remove default bg and hover to let GlareHover shine through
                     className="w-full h-full bg-transparent hover:bg-transparent text-white shadow-none border-none"
                   >
                     {mutation.isPending ? (
@@ -214,7 +213,10 @@ const RegisterUser = () => {
                   </Button>
                 </GlareHover>
               </div>
-
+                <p className="text-center text-sm text-gray-500">
+                  Already have an account?{" "}
+                <Link href="/signin" className="text-red-600 font-medium hover:underline">Sign in</Link>
+              </p>
             </form>
           </CardContent>
 

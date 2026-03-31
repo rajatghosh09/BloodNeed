@@ -206,6 +206,10 @@ const RegisterHospital = () => {
                   </Button>
                 </GlareHover>
               </div>
+              <p className="text-center text-sm text-gray-500">
+                Already have an account?{" "}
+                <Link href="/signin" className="text-red-600 font-medium hover:underline">Sign in</Link>
+              </p>
             </form>
           </CardContent>
         </Card>
