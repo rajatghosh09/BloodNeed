@@ -67,7 +67,7 @@ const Signin = () => {
                 text="Welcome Back"
                 animateOn="view"
                 speed={30}
-                maxIterations={5}
+                maxIterations={2}
                 className="text-3xl font-bold text-red-600"
               />
             </CardTitle>

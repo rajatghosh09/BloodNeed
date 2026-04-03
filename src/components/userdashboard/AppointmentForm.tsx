@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { format } from "date-fns";
-
+import styled from 'styled-components';
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
-import { CalendarIcon, LoaderCircle, Droplet, Clock, CalendarCheck, Info, CheckCircle2, PhoneCall, Mail } from "lucide-react";
+import { LoaderCircle, Droplet, Clock, CalendarCheck, Info, CheckCircle2, PhoneCall, Mail } from "lucide-react";
 
 import { CreateAppointment, useLatestAppointment } from "@/hooks/appointment";
 
@@ -102,7 +102,7 @@ const AppointmentForm = ({ userId }: Props) => {
         
         <div className="flex flex-col sm:flex-row gap-4">
           {/* Date Picker */}
-          <Popover>
+          {/* <Popover>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
@@ -122,7 +122,47 @@ const AppointmentForm = ({ userId }: Props) => {
                 className="p-3"
               />
             </PopoverContent>
-          </Popover>
+          </Popover> */}
+
+          <Popover>
+  <PopoverTrigger asChild>
+    <div>
+      <StyledWrapper>
+        <button className="button">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={22}
+            height={22}
+            fill="none"
+            className="svg-icon"
+          >
+            <g strokeWidth={2} strokeLinecap="round" stroke="#fff">
+              <rect y={5} x={4} width={16} rx={2} height={16} />
+              <path d="m8 3v4" />
+              <path d="m16 3v4" />
+              <path d="m4 11h16" />
+            </g>
+          </svg>
+
+          <span className="label">
+            {date ? format(date, "PPP") : "Select a donation date"}
+          </span>
+        </button>
+      </StyledWrapper>
+    </div>
+  </PopoverTrigger>
+
+  <PopoverContent className="w-auto p-0 rounded-xl" align="start">
+    <Calendar
+      mode="single"
+      selected={date}
+      onSelect={setDate}
+      disabled={(date) => date < minDate}
+      initialFocus
+      className="p-3"
+    />
+  </PopoverContent>
+</Popover>
 
           {/* Book Button */}
           <Button
@@ -194,3 +234,48 @@ const AppointmentForm = ({ userId }: Props) => {
 };
 
 export default AppointmentForm;
+
+
+
+// this is date picker style univers.io
+
+const StyledWrapper = styled.div`
+  .button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    height: 48px;
+    width: 100%;
+    border: none;
+    background: #ff342b;
+    border-radius: 14px;
+    cursor: pointer;
+    justify-content: flex-start;
+  }
+
+  .label {
+    font-size: 15px;
+    color: #fff;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  .svg-icon {
+    transition: 0.3s;
+  }
+
+  .button:hover {
+    background: #e52e26;
+  }
+
+  .button:hover .svg-icon {
+    animation: slope 0.6s linear infinite;
+  }
+
+  @keyframes slope {
+    50% {
+      transform: rotate(10deg);
+    }
+  }
+`;
