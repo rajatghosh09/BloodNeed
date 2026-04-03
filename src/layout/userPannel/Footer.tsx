@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Youtube, Linkedin, Facebook, MessageCircle } from "lucide-react";
+import { Youtube, Linkedin, Facebook, } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { TextHoverEffect } from "@/components/text-hover-effect";
@@ -168,6 +168,7 @@ const SocialWrapper = styled.div`
     display: flex;
     gap: 14px;
     padding-top: 8px;
+    flex-wrap: wrap;
   }
 
   .icon-content {
@@ -253,5 +254,11 @@ const SocialWrapper = styled.div`
 /* Facebook */
 .icon-content:nth-child(4) a .filled {
   background: #1877f2;
+}
+
+  @media (max-width: 640px) {
+  .social-list {
+    justify-content: center;
+  }
 }
 `;
