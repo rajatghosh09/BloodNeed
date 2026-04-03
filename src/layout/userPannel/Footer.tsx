@@ -2,11 +2,10 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Youtube, Linkedin, Facebook, } from "lucide-react";
+import { Youtube, Linkedin, Github, } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { TextHoverEffect } from "@/components/text-hover-effect";
-import styled from 'styled-components';
 
 
 export default function FooterSection({ className }: { className?: string }) {
@@ -75,68 +74,7 @@ export default function FooterSection({ className }: { className?: string }) {
             </p>
 
             {/* Social */}
-            <SocialWrapper>
-              <ul className="social-list">
-                {/* WhatsApp */}
-                <li className="icon-content">
-                  <a
-                    href="https://wa.me/112067101079"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <div className="filled" />
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      width={22}
-                      height={22}
-                    >
-                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-                    </svg>
-                  </a>
-                  <div className="tooltip">WhatsApp</div>
-                </li>
-
-                {/* YouTube */}
-                <li className="icon-content">
-                  <a
-                    href="https://youtube.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <div className="filled" />
-                    <Youtube size={22} />
-                  </a>
-                  <div className="tooltip">YouTube</div>
-                </li>
-
-                {/* LinkedIn */}
-                <li className="icon-content">
-                  <a
-                    href="https://linkedin.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <div className="filled" />
-                    <Linkedin size={22} />
-                  </a>
-                  <div className="tooltip">LinkedIn</div>
-                </li>
-
-                {/* Facebook */}
-                <li className="icon-content">
-                  <a
-                    href="https://facebook.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <div className="filled" />
-                    <Facebook size={22} />
-                  </a>
-                  <div className="tooltip">Facebook</div>
-                </li>
-              </ul>
-            </SocialWrapper>
+            {/* Social */} <div className="flex gap-4 pt-2"> <Link href="https://github.com" target="_blank" className="p-2 rounded-lg bg-white/60 dark:bg-white/10 backdrop-blur hover:scale-110 transition" > <Github size={18} /> </Link> <Link href="https://youtube.com" target="_blank" className="p-2 rounded-lg bg-white/60 dark:bg-white/10 backdrop-blur hover:scale-110 transition" > <Youtube size={18} /> </Link> <Link href="https://linkedin.com" target="_blank" className="p-2 rounded-lg bg-white/60 dark:bg-white/10 backdrop-blur hover:scale-110 transition" > <Linkedin size={18} /> </Link> </div>
           </div>
 
           {/* Links Column 1 */}
@@ -184,102 +122,3 @@ export default function FooterSection({ className }: { className?: string }) {
     </footer>
   );
 }
-
-const SocialWrapper = styled.div`
-  .social-list {
-    display: flex;
-    gap: 14px;
-    padding-top: 8px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  .icon-content {
-    position: relative;
-    flex: 0 0 auto; /* ✅ prevents shrink issue */
-  }
-
-  .tooltip {
-    position: absolute;
-    top: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #000;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 6px;
-    font-size: 12px;
-    opacity: 0;
-    visibility: hidden;
-    transition: 0.3s;
-    white-space: nowrap;
-  }
-
-  .icon-content:hover .tooltip {
-    opacity: 1;
-    visibility: visible;
-    top: -45px;
-  }
-
-  .icon-content a {
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: #fff;
-    color: #333;
-    transition: 0.3s;
-  }
-
-  .icon-content a:hover {
-    color: white;
-    transform: scale(1.1);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-  }
-
-  .icon-content a svg {
-    z-index: 1;
-  }
-
-  .filled {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 0;
-    transition: 0.3s;
-    z-index: 0;
-  }
-
-  .icon-content a:hover .filled {
-    height: 100%;
-  }
-
-  /* Brand Colors */
-  .icon-content:nth-child(1) a .filled {
-    background: #25d366; /* WhatsApp */
-  }
-
-  .icon-content:nth-child(2) a .filled {
-    background: #ff0000; /* YouTube */
-  }
-
-  .icon-content:nth-child(3) a .filled {
-    background: #0077b5; /* LinkedIn */
-  }
-
-  .icon-content:nth-child(4) a .filled {
-    background: #1877f2; /* Facebook */
-  }
-
-  /* Mobile Fix */
-  @media (max-width: 640px) {
-    .social-list {
-      justify-content: center;
-    }
-  }
-`;
