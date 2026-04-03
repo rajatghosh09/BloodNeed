@@ -73,10 +73,11 @@ export default function FooterSection({ className }: { className?: string }) {
               hospitals, and recipients in real-time — making emergency response
               faster, safer, and more reliable.
             </p>
+
             {/* Social */}
             <SocialWrapper>
               <ul className="social-list">
-                {/* WhatsApp ✅ */}
+                {/* WhatsApp */}
                 <li className="icon-content">
                   <a data-social="whatsapp" aria-label="Whatsapp" href="https://api.whatsapp.com/send?phone=+112067101079&text=Save%20this%20to%20your%20Favorites%20-%20@wilsondesouza">
                     <div className="filled" />
