@@ -21,7 +21,6 @@ import GlareHover from "@/components/react-bits/GlareHover";
 
 
 
-
 const RegisterUser = () => {
   const mutation = useRegister()
   const navigate = useRouter()

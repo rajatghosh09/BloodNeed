@@ -10,15 +10,15 @@ export default function Contact() {
   const [loading, setLoading] = useState(false);
   const [popup, setPopup] = useState(false);
 
- async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
 
     // 1. SAVE THE FORM REFERENCE HERE!
-    const form = e.currentTarget; 
-    
+    const form = e.currentTarget;
+
     // 2. Use 'form' instead of 'e.currentTarget'
-    const formData = new FormData(form); 
+    const formData = new FormData(form);
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
     const phone = formData.get("phone") as string;
@@ -37,10 +37,10 @@ export default function Contact() {
       return;
     }
 
-    form.reset(); 
+    form.reset();
     setPopup(true);
     // toast.success("Message sent successfully!");
-    
+
     setTimeout(() => setPopup(false), 3000);
   }
 

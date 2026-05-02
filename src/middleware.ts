@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-
   const { pathname } = request.nextUrl;
 
   const token = request.cookies.get("token")?.value;
@@ -17,7 +16,6 @@ export function middleware(request: NextRequest) {
   /* ================= LOGIN PAGE REDIRECT ================= */
 
   if (isLoginPage && token) {
-
     if (role === "admin") {
       return NextResponse.redirect(new URL("/admin/dashboard", request.url));
     }
@@ -29,13 +27,11 @@ export function middleware(request: NextRequest) {
     if (role === "user") {
       return NextResponse.redirect(new URL("/user/dashboard", request.url));
     }
-
   }
 
   /* ================= PROTECT ADMIN ================= */
 
   if (isAdminRoute) {
-
     if (!token) {
       return NextResponse.redirect(new URL("/signin", request.url));
     }
@@ -43,13 +39,11 @@ export function middleware(request: NextRequest) {
     if (role !== "admin") {
       return NextResponse.redirect(new URL("/", request.url));
     }
-
   }
 
   /* ================= PROTECT HOSPITAL ================= */
 
   if (isHospitalRoute) {
-
     if (!token) {
       return NextResponse.redirect(new URL("/signin", request.url));
     }
@@ -57,13 +51,11 @@ export function middleware(request: NextRequest) {
     if (role !== "hospital") {
       return NextResponse.redirect(new URL("/", request.url));
     }
-
   }
 
   /* ================= PROTECT USER ================= */
 
   if (isUserRoute) {
-
     if (!token) {
       return NextResponse.redirect(new URL("/signin", request.url));
     }
@@ -71,17 +63,11 @@ export function middleware(request: NextRequest) {
     if (role !== "user") {
       return NextResponse.redirect(new URL("/", request.url));
     }
-
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    "/signin",
-    "/admin/:path*",
-    "/hospital/:path*",
-    "/user/:path*",
-  ],
+  matcher: ["/signin", "/admin/:path*", "/hospital/:path*", "/user/:path*"],
 };

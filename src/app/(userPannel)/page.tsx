@@ -101,7 +101,9 @@ const Home = () => {
       <FinalCTA />
       
       {/* Testimonials */}
-      <Testimonials/>
+      <Testimonials />
+      
+      
     </>
   )
 }
