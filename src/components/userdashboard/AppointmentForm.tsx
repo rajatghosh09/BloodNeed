@@ -2,13 +2,26 @@
 
 import { useState } from "react";
 import { format } from "date-fns";
-import styled from 'styled-components';
+import styled from "styled-components";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
-import { LoaderCircle, Droplet, Clock, CalendarCheck, Info, CheckCircle2, PhoneCall, Mail } from "lucide-react";
+import {
+  LoaderCircle,
+  Droplet,
+  Clock,
+  CalendarCheck,
+  Info,
+  CheckCircle2,
+  PhoneCall,
+  Mail,
+} from "lucide-react";
 
 import { CreateAppointment, useLatestAppointment } from "@/hooks/appointment";
 
@@ -28,7 +41,7 @@ const AppointmentForm = ({ userId }: Props) => {
   const minDate = latest?.next_eligibility_date
     ? new Date(latest.next_eligibility_date)
     : new Date();
-    
+
   // Strip the time from today so they can book today if eligible
   minDate.setHours(0, 0, 0, 0);
 
@@ -43,24 +56,25 @@ const AppointmentForm = ({ userId }: Props) => {
       },
       {
         onSuccess: () => {
-          setBookedDate(date);  // Save the date
-          setDate(undefined);   // Reset the calendar input
-          setOpenDialog(true);  // Open the success dialog
+          setBookedDate(date); // Save the date
+          setDate(undefined); // Reset the calendar input
+          setOpenDialog(true); // Open the success dialog
         },
-      }
+      },
     );
   };
 
   return (
     <div className="space-y-8 max-w-3xl mx-auto p-4 md:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
-      
       {/* Header section */}
       <div>
         <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
           <Droplet className="w-6 h-6 text-red-600" fill="currentColor" />
           Donation Hub
         </h2>
-        <p className="text-gray-500 mt-1">Manage your blood donation schedule and eligibility.</p>
+        <p className="text-gray-500 mt-1">
+          Manage your blood donation schedule and eligibility.
+        </p>
       </div>
 
       {/* Info Cards */}
@@ -68,22 +82,26 @@ const AppointmentForm = ({ userId }: Props) => {
         {/* Last Donation Card */}
         <div className="p-6 border border-gray-100 rounded-xl bg-gradient-to-br from-white to-gray-50 shadow-sm flex flex-col justify-center">
           <div className="flex items-center gap-2 text-sm text-gray-500 font-medium mb-2">
-            <Clock className="w-4 h-4 text-gray-400" /> 
+            <Clock className="w-4 h-4 text-gray-400" />
             Last Donation
           </div>
           <h3 className="text-2xl font-bold text-gray-900">
-            {latest?.donation_date ? format(new Date(latest.donation_date), "MMM dd, yyyy") : "No history"}
+            {latest?.donation_date
+              ? format(new Date(latest.donation_date), "MMM dd, yyyy")
+              : "No history"}
           </h3>
         </div>
 
         {/* Next Eligible Card */}
         <div className="p-6 border border-red-100 rounded-xl bg-gradient-to-br from-red-50/50 to-white shadow-sm flex flex-col justify-center">
           <div className="flex items-center gap-2 text-sm text-red-600 font-medium mb-2">
-            <CalendarCheck className="w-4 h-4" /> 
+            <CalendarCheck className="w-4 h-4" />
             Next Eligible Date
           </div>
           <h3 className="text-2xl font-bold text-red-600">
-            {latest?.next_eligibility_date ? format(new Date(latest.next_eligibility_date), "MMM dd, yyyy") : "Eligible right now"}
+            {latest?.next_eligibility_date
+              ? format(new Date(latest.next_eligibility_date), "MMM dd, yyyy")
+              : "Eligible right now"}
           </h3>
         </div>
       </div>
@@ -92,26 +110,48 @@ const AppointmentForm = ({ userId }: Props) => {
       <div className="flex items-start gap-3 p-4 rounded-xl bg-blue-50 border border-blue-100 text-sm text-blue-800">
         <Info className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
         <div>
-          <strong>Health Reminder:</strong> Donors are safely eligible to donate blood again after a <strong>90 day</strong> recovery period. Please ensure you are feeling healthy, hydrated, and well-rested before your next appointment.
+          <strong>Health Reminder:</strong> Donors are safely eligible to donate
+          blood again after a <strong>90 day</strong> recovery period. Please
+          ensure you are feeling healthy, hydrated, and well-rested before your
+          next appointment.
         </div>
       </div>
 
       {/* Booking Section */}
       <form onSubmit={handleSubmit} className="pt-4 border-t border-gray-100">
-        <h3 className="text-lg font-bold text-gray-900 mb-4">Book Your Next Appointment</h3>
-        
+        <h3 className="text-lg font-bold text-gray-900 mb-4">
+          Book Your Next Appointment
+        </h3>
+
         <div className="flex flex-col sm:flex-row gap-4">
-          {/* Date Picker */}
-          {/* <Popover>
+          <Popover>
             <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={`flex-1 justify-start text-left font-normal h-12 rounded-xl border-gray-200 ${!date && "text-gray-500"}`}
-              >
-                <CalendarIcon className="mr-3 h-5 w-5 text-gray-400" />
-                {date ? format(date, "PPP") : "Select a donation date..."}
-              </Button>
+              <div>
+                <StyledWrapper>
+                  <button className="button">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width={22}
+                      height={22}
+                      fill="none"
+                      className="svg-icon"
+                    >
+                      <g strokeWidth={2} strokeLinecap="round" stroke="#fff">
+                        <rect y={5} x={4} width={16} rx={2} height={16} />
+                        <path d="m8 3v4" />
+                        <path d="m16 3v4" />
+                        <path d="m4 11h16" />
+                      </g>
+                    </svg>
+
+                    <span className="label">
+                      {date ? format(date, "PPP") : "Select a donation date"}
+                    </span>
+                  </button>
+                </StyledWrapper>
+              </div>
             </PopoverTrigger>
+
             <PopoverContent className="w-auto p-0 rounded-xl" align="start">
               <Calendar
                 mode="single"
@@ -122,47 +162,7 @@ const AppointmentForm = ({ userId }: Props) => {
                 className="p-3"
               />
             </PopoverContent>
-          </Popover> */}
-
-          <Popover>
-  <PopoverTrigger asChild>
-    <div>
-      <StyledWrapper>
-        <button className="button">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={22}
-            height={22}
-            fill="none"
-            className="svg-icon"
-          >
-            <g strokeWidth={2} strokeLinecap="round" stroke="#fff">
-              <rect y={5} x={4} width={16} rx={2} height={16} />
-              <path d="m8 3v4" />
-              <path d="m16 3v4" />
-              <path d="m4 11h16" />
-            </g>
-          </svg>
-
-          <span className="label">
-            {date ? format(date, "PPP") : "Select a donation date"}
-          </span>
-        </button>
-      </StyledWrapper>
-    </div>
-  </PopoverTrigger>
-
-  <PopoverContent className="w-auto p-0 rounded-xl" align="start">
-    <Calendar
-      mode="single"
-      selected={date}
-      onSelect={setDate}
-      disabled={(date) => date < minDate}
-      initialFocus
-      className="p-3"
-    />
-  </PopoverContent>
-</Popover>
+          </Popover>
 
           {/* Book Button */}
           <Button
@@ -182,20 +182,24 @@ const AppointmentForm = ({ userId }: Props) => {
       {/* Success Dialog (The "Ticket") */}
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent className="sm:max-w-md rounded-2xl p-0 overflow-hidden border-0">
-          
           {/* Top colored banner */}
           <div className="bg-green-500 p-6 flex flex-col items-center justify-center text-white text-center">
             <CheckCircle2 className="w-16 h-16 text-white mb-3" />
-            <DialogTitle className="text-2xl font-bold text-white">Booking Confirmed!</DialogTitle>
-            <p className="text-green-100 mt-1 text-sm">Thank you for stepping up to save lives.</p>
+            <DialogTitle className="text-2xl font-bold text-white">
+              Booking Confirmed!
+            </DialogTitle>
+            <p className="text-green-100 mt-1 text-sm">
+              Thank you for stepping up to save lives.
+            </p>
           </div>
 
           <div className="p-6 md:p-8 space-y-6 bg-white">
-            
             {/* The Date display (Now working perfectly!) */}
             <div className="bg-gray-50 border border-gray-100 rounded-xl p-4 flex items-center justify-between">
               <div>
-                <p className="text-xs text-gray-500 font-medium uppercase tracking-wider mb-1">Appointment Date</p>
+                <p className="text-xs text-gray-500 font-medium uppercase tracking-wider mb-1">
+                  Appointment Date
+                </p>
                 <p className="text-lg font-bold text-gray-900">
                   {bookedDate ? format(bookedDate, "EEEE, MMMM do, yyyy") : ""}
                 </p>
@@ -215,8 +219,18 @@ const AppointmentForm = ({ userId }: Props) => {
             </div>
 
             <div className="pt-4 border-t border-gray-100 text-sm text-gray-500 flex flex-row sm:flex-row justify-between gap-2">
-              <p><PhoneCall /> Support: <span className="font-semibold text-gray-900">+91 98765 43210</span></p>
-              <p><Mail /> Email: <span className="font-semibold text-gray-900">support@bloodneed.com</span></p>
+              <p>
+                <PhoneCall /> Support:{" "}
+                <span className="font-semibold text-gray-900">
+                  +91 98765 43210
+                </span>
+              </p>
+              <p>
+                <Mail /> Email:{" "}
+                <span className="font-semibold text-gray-900">
+                  support@bloodneed.com
+                </span>
+              </p>
             </div>
 
             <Button
@@ -226,7 +240,6 @@ const AppointmentForm = ({ userId }: Props) => {
               Done
             </Button>
           </div>
-
         </DialogContent>
       </Dialog>
     </div>
@@ -234,8 +247,6 @@ const AppointmentForm = ({ userId }: Props) => {
 };
 
 export default AppointmentForm;
-
-
 
 // this is date picker style univers.io
 
