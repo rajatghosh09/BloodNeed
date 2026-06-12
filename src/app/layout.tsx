@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: "%s | BloodNeed",
   },
   description:
-    "BloodNeed is a modern blood management platform that connects blood donors, hospitals, and patients. Register as a donor, hospitals can request blood, and users can book donation appointments easily.",
+    "BloodNeed is a modern blood management platform that connects blood donors and hospitals. Register as a donor, hospitals can request blood, and users can book donation appointments easily.",
 
   keywords: [
     "blood donation",
@@ -24,8 +24,18 @@ export const metadata: Metadata = {
     "online blood bank",
   ],
 
-  authors: [{ name: "Rajat Ghosh" }],
+  authors: [{ name: "Rajat Ghosh", url: "https://my-portfolio-rg-eosin.vercel.app/" }],
   creator: "Rajat Ghosh",
+
+  // Canonical URL "This helps search engines know the official URL of your site."
+  alternates: {
+    canonical: "https://blood-need-rajat.vercel.app",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
 
   openGraph: {
     title: "BloodNeed | Blood Donation & Management Platform",
