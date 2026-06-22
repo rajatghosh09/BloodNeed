@@ -15,15 +15,15 @@ import LogIn from "../../../../assets/LogIn.png";
 import Image from "next/image";
 import Link from "next/link";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { LoaderCircle } from "lucide-react";
+import { Eye, EyeOff, LoaderCircle } from "lucide-react";
+import { useState } from "react";
 import DecryptedText from "@/components/react-bits/DecryptedText";
 import GlareHover from "@/components/react-bits/GlareHover";
 
-
-
 const RegisterUser = () => {
-  const mutation = useRegister()
-  const navigate = useRouter()
+  const mutation = useRegister();
+  const navigate = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -60,12 +60,10 @@ const RegisterUser = () => {
 
   return (
     <div className="h-screen overflow-hidden flex items-center justify-center bg-gray-100 dark:bg-black px-4">
-      <Link
-        href="/"
-        className="absolute top-6 left-6 text-red-600 hover:scale-110 transition"
-      >
+      <Link href="/" className="absolute top-6 left-6 text-red-600 hover:scale-110 transition">
         <IoMdArrowRoundBack size={32} />
       </Link>
+
       <div className="grid md:grid-cols-2 gap-10 items-center max-w-6xl w-full h-full">
 
         {/* Image Section */}
@@ -114,48 +112,53 @@ const RegisterUser = () => {
             </Tabs>
           </CardHeader>
 
-          {/* 🔥 Scrollable Form Area */}
+          {/* Scrollable Form Area */}
           <CardContent className="overflow-y-auto px-6 pb-6">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
 
               <div className="space-y-1">
                 <Label>Full Name</Label>
                 <Input {...register("full_name")} />
-                <p className="text-red-500 text-sm">
-                  {errors.full_name?.message}
-                </p>
+                <p className="text-red-500 text-sm">{errors.full_name?.message}</p>
               </div>
 
               <div className="space-y-1">
                 <Label>Email</Label>
                 <Input type="email" {...register("email")} />
-                <p className="text-red-500 text-sm">
-                  {errors.email?.message}
-                </p>
+                <p className="text-red-500 text-sm">{errors.email?.message}</p>
               </div>
 
+              {/* Password with Eye Toggle */}
               <div className="space-y-1">
                 <Label>Password</Label>
-                <Input type="password" {...register("password")} />
-                <p className="text-red-500 text-sm">
-                  {errors.password?.message}
-                </p>
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    {...register("password")}
+                    className="pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-600 transition-colors"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+                <p className="text-red-500 text-sm">{errors.password?.message}</p>
               </div>
 
               <div className="space-y-1">
                 <Label>Phone</Label>
                 <Input {...register("phone")} />
-                <p className="text-red-500 text-sm">
-                  {errors.phone?.message}
-                </p>
+                <p className="text-red-500 text-sm">{errors.phone?.message}</p>
               </div>
 
               <div className="space-y-1">
                 <Label>Address</Label>
                 <Input {...register("address")} />
-                <p className="text-red-500 text-sm">
-                  {errors.address?.message}
-                </p>
+                <p className="text-red-500 text-sm">{errors.address?.message}</p>
               </div>
 
               <div className="space-y-1">
@@ -174,20 +177,8 @@ const RegisterUser = () => {
                   <option value="AB+">AB+</option>
                   <option value="AB-">AB-</option>
                 </select>
-                <p className="text-red-500 text-sm">
-                  {errors.blood_group?.message}
-                </p>
+                <p className="text-red-500 text-sm">{errors.blood_group?.message}</p>
               </div>
-
-              {/* <Button
-                  type="submit"
-                  className="w-full bg-red-600 hover:bg-red-700 text-white rounded-xl py-2 mt-2 transition"
-                  disabled={mutation.isPending}
-                >
-                  {mutation.isPending
-                    ? <LoaderCircle className="animate-spin h-5 w-5 mx-auto" />
-                    : "Register as Donor"}
-                </Button> */}
 
               <div className="mt-2">
                 <GlareHover
@@ -212,8 +203,9 @@ const RegisterUser = () => {
                   </Button>
                 </GlareHover>
               </div>
-                <p className="text-center text-sm text-gray-500">
-                  Already have an account?{" "}
+
+              <p className="text-center text-sm text-gray-500">
+                Already have an account?{" "}
                 <Link href="/signin" className="text-red-600 font-medium hover:underline">Sign in</Link>
               </p>
             </form>

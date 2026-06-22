@@ -16,3 +16,19 @@ export const useSignin = () => {
     mutationFn: signin,
   });
 };
+
+export const useForgotPassword = () => {
+  const forgotPassword = useAuthStore((state) => state.forgotPassword);
+
+  return useMutation({
+    mutationFn: (email: string) => forgotPassword(email),
+  });
+};
+
+export const useResetPassword = () => {
+  const resetPassword = useAuthStore((state) => state.resetPassword);
+
+  return useMutation({
+    mutationFn: (newPassword: string) => resetPassword(newPassword),
+  });
+};

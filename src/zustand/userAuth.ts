@@ -14,6 +14,8 @@ interface AuthState {
   register: (data: IRegisterHandler) => Promise<{ success: boolean; message: string }>;
   signin: (data: Isignin) => Promise<{role: string | null; success: boolean; message: string }>;
   logout: () => Promise<{ success: boolean; message: string }>;
+  forgotPassword: (email: string) => Promise<{ success: boolean; message: string }>;
+  resetPassword: (newPassword: string) => Promise<{ success: boolean; message: string }>;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -176,7 +178,6 @@ export const useAuthStore = create<AuthState>((set) => ({
         user: null,
         role: null,
         loading: false,
-        // success: false,
       });
 
       return {
@@ -191,6 +192,44 @@ export const useAuthStore = create<AuthState>((set) => ({
         success: false,
         message: error.message || "Logout failed",
       };
+    }
+  },
+
+  // ==========================
+  // FORGOT PASSWORD
+  // ==========================
+  forgotPassword: async (email: string) => {
+    set({ loading: true, error: null });
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || window.location.origin}/reset-password`,
+      });
+
+      if (error) throw error;
+
+      set({ loading: false });
+      return { success: true, message: "Password reset email sent! Check your inbox." };
+    } catch (error: any) {
+      set({ loading: false, error: error.message });
+      return { success: false, message: error.message || "Failed to send reset email" };
+    }
+  },
+
+  // ==========================
+  // RESET PASSWORD
+  // ==========================
+  resetPassword: async (newPassword: string) => {
+    set({ loading: true, error: null });
+    try {
+      const { error } = await supabase.auth.updateUser({ password: newPassword });
+
+      if (error) throw error;
+
+      set({ loading: false });
+      return { success: true, message: "Password updated successfully!" };
+    } catch (error: any) {
+      set({ loading: false, error: error.message });
+      return { success: false, message: error.message || "Failed to reset password" };
     }
   },
 }));

@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import { useAllAppointments } from "@/hooks/appointment";
 import Lottie from "lottie-react";
 import loadingAnimation from "@/services/json/loader/bloodsathi.json";
+import { Search, Mail, Phone, Users, Calendar, ArrowDownWideNarrow, Droplet } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface DonorStat {
   user_id: string;
@@ -15,7 +17,6 @@ interface DonorStat {
 
 type SortOrder = "default" | "high-to-low" | "low-to-high";
 
-// Helper to generate initials for the avatar
 const getInitials = (name: string) => {
   if (!name || name === "Unknown User") return "?";
   return name
@@ -29,8 +30,9 @@ const getInitials = (name: string) => {
 const Donors = () => {
   const { data: appointments, isLoading, isError } = useAllAppointments();
   const [sortOrder, setSortOrder] = useState<SortOrder>("default");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // Group appointments and apply sorting
+  // Group appointments, apply search filter, and apply sorting
   const donorsList = useMemo(() => {
     if (!appointments) return [];
 
@@ -51,8 +53,20 @@ const Donors = () => {
       }
     });
 
-    const donorArray = Array.from(donorMap.values());
+    let donorArray = Array.from(donorMap.values());
 
+    // Apply Search filter
+    if (searchTerm.trim() !== "") {
+      const lowerSearch = searchTerm.toLowerCase();
+      donorArray = donorArray.filter(
+        (donor) =>
+          donor.name.toLowerCase().includes(lowerSearch) ||
+          donor.email.toLowerCase().includes(lowerSearch) ||
+          donor.phone.toLowerCase().includes(lowerSearch)
+      );
+    }
+
+    // Apply Sorting
     if (sortOrder === "high-to-low") {
       donorArray.sort((a, b) => b.requestCount - a.requestCount);
     } else if (sortOrder === "low-to-high") {
@@ -60,7 +74,7 @@ const Donors = () => {
     }
 
     return donorArray;
-  }, [appointments, sortOrder]);
+  }, [appointments, sortOrder, searchTerm]);
 
   if (isLoading) {
     return (
@@ -89,132 +103,151 @@ const Donors = () => {
   }
 
   return (
-    <div className="p-4 md:p-8 max-w-7xl mx-auto min-h-screen">
+    <div className="p-4 md:p-8 min-h-screen bg-gray-50/30">
       {/* Header & Controls */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-5">
+      <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-8 gap-6">
         <div>
-          <h1 className="text-3xl font-extrabold text-red-600 tracking-tight">Donor Directory</h1>
+          <h1 className="text-3xl font-extrabold text-red-600 tracking-tight flex items-center gap-3">
+            <Users className="h-8 w-8 text-red-600" />
+            Donor Directory
+          </h1>
           <p className="text-sm text-gray-500 mt-1.5 font-medium">
-            Manage your donors and view their request history.
+            Manage your registered donors and view their donation history. Total found: <span className="font-bold text-gray-900">{donorsList.length}</span>
           </p>
         </div>
 
-        {/* Sort Dropdown */}
-        <div className="flex items-center gap-3 w-full sm:w-auto bg-red-50 p-1.5 rounded-xl shadow-sm border border-gray-200">
-          <div className="pl-3 text-gray-400">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
-            </svg>
+        {/* Controls: Search and Sort */}
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full xl:w-auto">
+          {/* Search Bar */}
+          <div className="relative w-full sm:w-80">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="h-4 w-4 text-gray-400" />
+            </div>
+            <input
+              type="text"
+              className="block w-full pl-10 pr-3 py-2.5 border border-gray-200 bg-white rounded-xl text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all shadow-sm"
+              placeholder="Search by name, email, or phone..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
-          <select
-            id="sort"
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value as SortOrder)}
-            className="bg-transparent text-gray-700 text-sm font-medium focus:ring-0 border-none outline-none block w-full py-2 pr-8 cursor-pointer"
-          >
-            <option value="default">Sort by Default</option>
-            <option value="high-to-low" className="text-red-700">Highest Requests</option>
-            <option value="low-to-high" className="text-green-700">Lowest Requests</option>
-          </select>
+
+          {/* Sort Dropdown */}
+          <div className="flex items-center gap-3 w-full sm:w-auto bg-white p-1.5 rounded-xl shadow-sm border border-gray-200">
+            <div className="pl-3 text-gray-400">
+              <ArrowDownWideNarrow className="h-4 w-4" />
+            </div>
+            <select
+              id="sort"
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value as SortOrder)}
+              className="bg-transparent text-gray-700 text-sm font-semibold focus:ring-0 border-none outline-none block w-full py-1.5 pr-8 cursor-pointer"
+            >
+              <option value="default">Sort by Default</option>
+              <option value="high-to-low">Highest Requests</option>
+              <option value="low-to-high">Lowest Requests</option>
+            </select>
+          </div>
         </div>
       </div>
 
       {donorsList.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-dashed border-gray-300 p-12 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-50 text-blue-500 mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
+        <div className="bg-white rounded-3xl border border-dashed border-gray-300 p-16 text-center flex flex-col items-center justify-center">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-50 text-red-500 mb-4">
+            <Users className="h-10 w-10 text-red-400" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-900">No donors found</h3>
-          <p className="text-gray-500 mt-1">There are no appointment requests in the system yet.</p>
+          <h3 className="text-xl font-bold text-gray-900">No donors found</h3>
+          <p className="text-gray-500 mt-2 max-w-sm">
+            We couldn't find any donors matching your search criteria or sorting order.
+          </p>
         </div>
       ) : (
         <>
           {/* MOBILE VIEW: Card Layout (Hidden on Medium screens and up) */}
           <div className="grid grid-cols-1 gap-4 md:hidden">
-            {donorsList.map((donor) => (
-              <div key={donor.user_id} className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col gap-4">
-                <div className="flex justify-between items-start">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-100 to-blue-50 text-blue-600 flex items-center justify-center font-bold text-lg border border-blue-100">
-                      {getInitials(donor.name)}
+            <AnimatePresence>
+              {donorsList.map((donor, index) => (
+                <motion.div
+                  key={donor.user_id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.2, delay: index * 0.03 }}
+                  className="bg-white p-5 rounded-2xl shadow-sm border border-gray-150 flex flex-col gap-4 hover:shadow-md hover:border-red-200 transition-all duration-300"
+                >
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-red-50 to-red-100/50 text-red-600 flex items-center justify-center font-extrabold text-lg border border-red-100 shadow-inner">
+                        {getInitials(donor.name)}
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-gray-900 text-lg leading-tight">{donor.name}</h3>
+                        <span className={`inline-flex items-center justify-center px-2.5 py-0.5 mt-1.5 rounded-full text-[11px] font-bold tracking-wide uppercase ${
+                          donor.requestCount > 2 ? "bg-red-50 text-red-700 border border-red-100" : "bg-blue-50 text-blue-700 border border-blue-100"
+                        }`}>
+                          {donor.requestCount} {donor.requestCount === 1 ? "Request" : "Requests"}
+                        </span>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-bold text-gray-900 text-lg leading-tight">{donor.name}</h3>
-                      <span className={`inline-flex items-center justify-center px-2.5 py-0.5 mt-1 rounded-full text-[11px] font-bold tracking-wide uppercase ${
-                        donor.requestCount > 2 ? "bg-green-100 text-green-700" : "bg-blue-100 text-blue-700"
-                      }`}>
-                        {donor.requestCount} {donor.requestCount === 1 ? "Req" : "Reqs"}
-                      </span>
+                  </div>
+                  
+                  <div className="flex flex-col gap-2 pt-3 border-t border-gray-50">
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <Mail className="h-4 w-4 text-gray-400" />
+                      <span className="truncate">{donor.email}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <Phone className="h-4 w-4 text-gray-400" />
+                      <span>{donor.phone}</span>
                     </div>
                   </div>
-                </div>
-                
-                <div className="flex flex-col gap-2 pt-3 border-t border-gray-50">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                    <span className="truncate">{donor.email}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
-                    <span>{donor.phone}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
 
           {/* DESKTOP VIEW: Table Layout (Hidden on Mobile) */}
-          <div className="hidden md:block bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="hidden md:block bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="min-w-full text-left text-sm whitespace-nowrap">
                 <thead className="bg-gray-50/80 border-b border-gray-200">
                   <tr>
-                    <th className="px-6 py-5 font-semibold text-gray-900 tracking-wide text-xs uppercase">Donor Profile</th>
-                    <th className="px-6 py-5 font-semibold text-gray-900 tracking-wide text-xs uppercase">Contact Info</th>
-                    <th className="px-6 py-5 font-semibold text-gray-900 tracking-wide text-xs uppercase text-center">Total Requests</th>
+                    <th className="px-6 py-5 font-bold text-gray-700 tracking-wide text-xs uppercase">Donor Profile</th>
+                    <th className="px-6 py-5 font-bold text-gray-700 tracking-wide text-xs uppercase">Contact Info</th>
+                    <th className="px-6 py-5 font-bold text-gray-700 tracking-wide text-xs uppercase text-center">Total Requests</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-gray-150 bg-white">
                   {donorsList.map((donor) => (
-                    <tr key={donor.user_id} className="hover:bg-gray-50/50 transition-colors duration-200 group">
+                    <tr key={donor.user_id} className="hover:bg-red-50/10 transition-colors duration-200 group">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 flex items-center justify-center font-bold shadow-inner border border-blue-100">
+                          <div className="w-11 h-11 rounded-full bg-gradient-to-br from-red-50 to-red-100/30 text-red-600 flex items-center justify-center font-extrabold shadow-inner border border-red-100 transition-transform duration-300 group-hover:scale-105">
                             {getInitials(donor.name)}
                           </div>
                           <div>
                             <div className="font-bold text-gray-900 text-base">{donor.name}</div>
-                            <div className="text-xs text-gray-400 mt-0.5">ID: {donor.user_id.split('-')[0]}...</div>
+                            <div className="text-xs text-gray-400 mt-0.5 font-medium">ID: {donor.user_id.split('-')[0]}...</div>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex flex-col gap-1.5">
                           <div className="flex items-center gap-2 text-gray-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
-                            <span className="font-medium">{donor.email}</span>
+                            <Mail className="h-4 w-4 text-gray-400" />
+                            <span className="font-semibold text-gray-800">{donor.email}</span>
                           </div>
                           <div className="flex items-center gap-2 text-gray-500 text-xs">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                            </svg>
-                            <span>{donor.phone}</span>
+                            <Phone className="h-4 w-4 text-gray-400" />
+                            <span className="font-medium">{donor.phone}</span>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 text-center">
                         <span
-                          className={`inline-flex items-center justify-center px-3 py-1.5 rounded-full text-xs font-bold shadow-sm border ${
+                          className={`inline-flex items-center justify-center px-4 py-2 rounded-full text-xs font-bold shadow-sm border transition-all duration-300 group-hover:scale-105 ${
                             donor.requestCount > 2
-                              ? "bg-green-50 text-green-700 border-green-200"
+                              ? "bg-red-50 text-red-700 border-red-200"
                               : "bg-blue-50 text-blue-700 border-blue-200"
                           }`}
                         >

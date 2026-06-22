@@ -9,19 +9,21 @@ import { SigninFromvalues, signinValidation } from "@/services/validations/reges
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import Image from "next/image";
 import LogIn from "../../../../assets/LogIn.png";
 import { useAuthStore } from "@/zustand/userAuth";
-import { LoaderCircle } from "lucide-react";
+import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import DecryptedText from "@/components/react-bits/DecryptedText";
 import GlareHover from "@/components/react-bits/GlareHover";
 
 const Signin = () => {
   const mutation = useSignin();
   const navigate = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -76,18 +78,43 @@ const Signin = () => {
 
           <CardContent>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+              {/* Email Field */}
               <div className="space-y-2">
                 <Label>Email</Label>
                 <Input type="email" {...register("email")} />
                 <p className="text-red-500 text-sm">{errors.email?.message}</p>
               </div>
 
+              {/* Password Field with Eye Toggle */}
               <div className="space-y-2">
-                <Label>Password</Label>
-                <Input type="password" {...register("password")} />
+                <div className="flex items-center justify-between">
+                  <Label>Password</Label>
+                  <Link
+                    href="/forgot-password"
+                    className="text-xs text-red-600 hover:underline font-medium"
+                  >
+                    Forgot Password?
+                  </Link>
+                </div>
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    {...register("password")}
+                    className="pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-600 transition-colors"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
                 <p className="text-red-500 text-sm">{errors.password?.message}</p>
               </div>
 
+              {/* Submit Button */}
               <GlareHover
                 width="100%"
                 height="42px"
@@ -110,17 +137,11 @@ const Signin = () => {
                 </Button>
               </GlareHover>
 
-              {/* <Button
-                type="submit"
-                className="w-full bg-red-600 hover:bg-red-700 text-white rounded-xl py-2"
-                disabled={mutation.isPending}
-              >
-                {mutation.isPending ? <LoaderCircle className="animate-spin h-5 w-5 mx-auto" /> : "Sign In"}
-              </Button> */}
-
               <p className="text-center text-sm text-gray-500">
-                Don’t have an account?{" "}
-                <Link href="/registeruser" className="text-red-600 font-medium hover:underline">Register</Link>
+                Don't have an account?{" "}
+                <Link href="/registeruser" className="text-red-600 font-medium hover:underline">
+                  Register
+                </Link>
               </p>
             </form>
           </CardContent>
