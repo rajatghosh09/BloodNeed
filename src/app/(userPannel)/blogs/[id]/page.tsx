@@ -1,9 +1,49 @@
-import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {ArrowLeft,Calendar,Clock,User,Share2,Droplet,} from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Metadata } from "next";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+
+export const metadata: Metadata = {
+  title: "Blog Post | BloodNeed",
+  description: "Read detailed articles and updates from BloodNeed's blog.",
+  keywords: [
+    "blood donation blog",
+    "donor stories",
+    "health tips",
+    "blood bank news",
+    "BloodNeed updates",
+  ],
+  alternates: {
+    canonical: "https://blood-need-rajat.vercel.app/blogs/[id]",
+  },
+  openGraph: {
+    title: "BloodNeed Blog Post",
+    description: "Explore in‑depth articles about blood donation, donor experiences, and health insights.",
+    url: "https://blood-need-rajat.vercel.app/blogs/[id]",
+    siteName: "BloodNeed",
+    images: [
+      {
+        url: "/blog.png",
+        width: 1200,
+        height: 630,
+        alt: "BloodNeed Blog",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BloodNeed Blog Post",
+    description: "Discover articles on blood donation, donor stories, and health news.",
+    images: ["/blog.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 // --- EXPANDED MOCK DATA ---
 const blogDatabase = [
